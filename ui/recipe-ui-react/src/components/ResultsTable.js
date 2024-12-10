@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Grid, GridColumn } from '@progress/kendo-react-grid';
 
 export default function ResultsTable({domain, filters}) {
-    const [recipies, setData] = useState(null);
+    const [recipes, setData] = useState(null);
     
     useEffect(() => {
         const fetchData = async () => {
@@ -20,7 +20,7 @@ export default function ResultsTable({domain, filters}) {
 
     return (
         <div>
-            <Grid data={recipies}>
+            <Grid data={recipes}>
                 <GridColumn field="recipeName" />
                 <GridColumn field="recipeDescription" />
             </Grid>

@@ -31,6 +31,8 @@
 				currentTag: {},
 				equipments: [],
 				ingredients: [],
+				recipeCookTime: null,
+				recipeDifficulty: null,
 				tags: [],
 				plusIcon,
 				trashIcon
@@ -75,6 +77,17 @@
 			},
 			deleteTag(index) {
 				this.tags.splice(index, 1);
+			},
+            handleDropDownSelect(e) {
+			    var foo = "bar";
+			     switch(e.dataType) {
+					 case 'difficulty':
+					     this.recipeDifficulty = e.id;
+					 case 'cookTime':
+					     this.recipeCookTime = e.id;
+					 default:
+					     return;
+				 }
 			},
 			saveRecipe() {
 				const data = {

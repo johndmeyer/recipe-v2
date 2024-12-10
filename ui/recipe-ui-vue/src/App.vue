@@ -23,7 +23,12 @@
         },
 		data: function () {
             return {
-				domain: 'http://localhost:3000',
+				domain: 'http://10.1.10.28:3000',
+				filterCriteria: {
+                    recipeCookTime: null,
+					difficultyId: null,
+				    tagId: null
+				},
 				selectedRecipeId: 0,
                 showNewRecipeModal: false,
 				showDisplayEditModal: false,
@@ -33,16 +38,24 @@
             };
         },
 		methods: {
-			handleDropDownSelect: (data) => {
-				alert(`${data.dataType} ${data.key}`);
+			handleDropDownSelect(data) {
+				alert(`${data.dataType} ${data.id}`);
+				switch (data.dataType) {
+					case 'difficulty':
+					    this.filterCriteria.difficultyId = data.id;
+					case 'cookTime':
+					    this.filterCriteria.cookTime = data.id;
+					default:
+					    return;
+				}
 			},
 			handleGridRowClick(recipeId) {
 				this.selectedRecipeId = recipeId;
 				this.toggleDisplayEditModal();
 			},
 			handleItemSelected(e) {
-				alert(`item selected ${e.selectedItemId}`);
                 this.selectedItemId = e.selectedItemId;
+                this.filterCriteria.tagId = e.selectedItemId;
 			},
 			toggleNewRecipeModal() {
 				this.showNewRecipeModal = !this.showNewRecipeModal;
@@ -118,6 +131,7 @@
 		>
 			<results-table
 				:domain="domain"
+				:filterCriteria="filterCriteria"
 				@gridRowClick="handleGridRowClick"
 			/>
 		</div>
