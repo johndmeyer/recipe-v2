@@ -53,6 +53,7 @@
                     for (const [key, value] of Object.entries(this.filterCriteria)) {
                         if (value != null) {
                             url = `${url}${queryCounter === 0 ? '?' : '&'}${key}=${value}`
+                            queryCounter ++;
                         }
                     }
                 }
