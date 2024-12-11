@@ -50,7 +50,9 @@ WHERE
 
 EXEC retrieveRecipeIngredients @recipeId
 	
-EXEC retrieveRecipeEquipment @recipeId
+EXEC retrieveRecipeEquipments @recipeId
+
+EXEC retrieveRecipeTags @recipeId
 	
 GO
 

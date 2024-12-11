@@ -14,13 +14,17 @@ const execProc = async (params) => {
     let query = `EXEC ${params.procName}`;
 
     if (params.procArgs) {
-        for (const [index, arg] of params.procArgs.entries()) {
+        let argCounter = 0;
+
+        for (const arg of params.procArgs) {
             if (arg.value) {
                 if (arg.type === 'string') { // TODO: Break this up so the logic isn't so dense
-                    query = `${query}${index !== 0 ? ' ,' : ' '}@${arg.name}='${arg.value}'`;
+                    query = `${query}${argCounter !== 0 ? ', ' : ' '}@${arg.name}='${arg.value}'`;
                 } else {
-                    query = `${query}${index !== 0 ? ' ,' : ' '}@${arg.name}=${arg.value}`;
-                }                
+                    query = `${query}${argCounter !== 0 ? ', ' : ' '}@${arg.name}=${arg.value}`;
+                }
+                
+                argCounter++;
             }
         }
     }

@@ -1,6 +1,6 @@
 /*
-Name: retrieveRecipeEquipment
-Useage: EXEC retrieveRecipeEquipment @recipeId = 1
+Name: retrieveRecipeEquipments
+Useage: EXEC retrieveRecipeEquipments @recipeId = 1
 
 */
 
@@ -17,23 +17,22 @@ IF EXISTS (
 		AND
 		ROUTINE_SCHEMA = 'dbo'
 		AND
-		ROUTINE_NAME = 'retrieveRecipeEquipment'
+		ROUTINE_NAME = 'retrieveRecipeEquipments'
 )
 BEGIN
-	DROP PROCEDURE [dbo].retrieveRecipeEquipment
+	DROP PROCEDURE [dbo].retrieveRecipeEquipments
 END
 
 GO
 
-CREATE PROCEDURE retrieveRecipeEquipment (
+CREATE PROCEDURE retrieveRecipeEquipments (
 	@recipeId INT
 )
 AS 
 	
 SELECT
 	e.equipmentName,
-	e.equipmentDescription,
-	et.equipmentTypeName	
+	e.equipmentDescription
 FROM
 	recipe.dbo.recipe AS r
 	LEFT OUTER JOIN
@@ -42,9 +41,6 @@ FROM
 	LEFT OUTER JOIN
 	equipment AS e
 		ON re.equipmentId = e.equipmentId
-	LEFT OUTER JOIN
-	equipmentType AS et
-		on e.equipmentTypeId = et.equipmentTypeId
 WHERE
 	r.recipeId = @recipeId
 	

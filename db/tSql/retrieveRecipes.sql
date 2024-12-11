@@ -1,6 +1,6 @@
 /*
 Name: retrieveRecipes
-Useage: EXEC retrieveRecipes @recipeTypeId = 1
+Useage: EXEC retrieveRecipes @recipeTagId = 9, @recipeDifficultyId = 2, @recipeCookTime = 60
 
 */
 
@@ -25,19 +25,14 @@ END
 
 GO
 
-CREATE PROCEDURE retrieveRecipes --(
-	--@recipeTypeId INT = NULL,
-	--@recipeCusineTypeId INT = NULL,
-	--@recipeMaxCookTime INT = NULL
---)
+CREATE PROCEDURE retrieveRecipes(
+	@recipeTagId INT = NULL,
+	@recipeDifficultyId INT = NULL,
+	@recipeCookTime INT = NULL
+)
 AS 
 
---DECLARE @recipeTypeId INT = 1;
-
 DECLARE @query NVARCHAR(512)
---DECLARE @whereRecipeTypeId NVARCHAR(255)
---DECLARE @whereRecipeCusineTypeId NVARCHAR(255)
---DECLARE @whereRecipeMaxCookTime NVARCHAR(255)
 
 SET @query = '
 	SELECT
@@ -52,12 +47,36 @@ SET @query = '
 		recipe.dbo.recipe AS r
 		LEFT OUTER JOIN
 		recipe.dbo.difficulty AS d
-			ON r.difficultyId = d.difficultyId'
+			ON r.difficultyId = d.difficultyId
+		LEFT OUTER JOIN
+		recipe.dbo.recipe_tag rt
+			ON r.recipeId = rt.recipeId'
 			
--- TODO: Finish the logic for the dynamic where clauses: tags, difficulty, cook time
-
-
-EXEC SP_EXECUTESQL @query
+IF @recipeTagId <> '' OR @recipeDifficultyId <> '' OR @recipeCookTime <> ''
+	SET @query = @query + '
+	WHERE'
+	
+IF @recipeTagId <> ''
+	SET @query = @query + '
+		rt.tagId = ' + CAST(@recipeTagId AS VARCHAR(8))
+		
+IF @recipeTagId <> '' AND @recipeDifficultyId <> ''
+	SET @query = @query + '
+		AND'
+		
+IF @recipeDifficultyId <> ''
+	SET @query = @query + '
+		d.difficultyId >= ' + CAST(@recipeDifficultyId AS VARCHAR(1))
+		
+IF (@recipeTagId <> '' OR @recipeDifficultyId <> '') AND @recipeCookTime <> ''
+	SET @query = @query + '
+		AND'
+		
+IF @recipeCookTime <> ''
+	SET @query = @query + '
+		r.recipeCookTime >= ' + CAST(@recipeCookTime AS VARCHAR(3))
+ 
+EXEC SP_EXECUTESQL @query 
 
 	
 GO

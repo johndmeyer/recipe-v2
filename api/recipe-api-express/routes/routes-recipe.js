@@ -1,8 +1,8 @@
 const express = require('express');
 
+const logicCreateRecipe = require('../logic/recipe/logic-create-recipe');
 const logicRetrieveRecipe = require('../logic/recipe/logic-retrieve-recipe');
 const logicRetrieveRecipes = require('../logic/recipe/logic-retrieve-recipes');
-const logicRetrieveRecipeTypes = require('../logic/recipe/logic-retrieve-recipe-types');
 const logicRetrieveRecipeEquipments = require('../logic/recipe/logic-retrieve-recipe-equipments');
 const logicRetrieveRecipeIngredients = require('../logic/recipe/logic-retrieve-recipe-ingredients');
 
@@ -10,18 +10,9 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
     try {
-        //const { recipeTypeId, recipeMaxCookTime, recipeCusineTypeId } = req.query; // TODO: handle bad input
+        const { cookTime, difficultyId, tagId } = req.query; // TODO: handle bad input
 
-        //res.send(await logicRetrieveRecipes({ recipeTypeId, recipeMaxCookTime, recipeCusineTypeId }));
-        res.send(await logicRetrieveRecipes());
-    } catch (err) {
-        next(err);
-    }    
-});
-
-router.get('/types', async (req, res, next) => {
-    try {
-        res.send(await logicRetrieveRecipeTypes())
+        res.send(await logicRetrieveRecipes({ cookTime, difficultyId, tagId }));
     } catch (err) {
         next(err);
     }    
@@ -55,6 +46,16 @@ router.get('/equipments/:recipeId', async (req, res, next) => {
     } catch (err) {
         next(err);
     }    
+});
+
+router.put('/', async (req, res, next) => {
+    try {
+        const { ...recipe } = req.body;
+
+        res.send(await logicCreateRecipe({ recipe }));
+    } catch (err) {
+        next(err);
+    }
 });
 
 module.exports = router;
