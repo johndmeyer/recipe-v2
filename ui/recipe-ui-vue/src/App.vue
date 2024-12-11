@@ -70,7 +70,7 @@
 				this.showEditIngredientsModal = !this.showEditIngredientsModal;
 			},
 			toggleEditEquipmentsModal() {
-				this.showEditEquipmentModal = ! this.showEditEquipmentModal;
+				this.showEditEquipmentsModal = ! this.showEditEquipmentsModal;
 			}
 		}
 	};
@@ -196,7 +196,7 @@
 			<k-window
 				v-if="showNewRecipeModal"
 				:initial-width="600"
-				:initial-height="700"
+				:initial-height="825"
 				@close="toggleNewRecipeModal"
 			>
 				<new-recipe
@@ -205,13 +205,35 @@
 			</k-window>
 			<k-window
 				v-if="showEditTagsModal"
-				:initial-height="350"				
+				:initial-height="400"
 				:initial-width="650"							
 				@close="toggleEditTagsModal"
 			>
 				<edit-items
 					:domain="domain"
 					:path="'tag'"
+				/>
+			</k-window>
+			<k-window
+					v-if="showEditIngredientsModal"
+					:initial-height="450"
+					:initial-width="650"
+					@close="toggleEditIngredientsModal"
+			>
+				<edit-items
+						:domain="domain"
+						:path="'ingredient'"
+				/>
+			</k-window>
+			<k-window
+					v-if="showEditEquipmentsModal"
+					:initial-height="450"
+					:initial-width="650"
+					@close="toggleEditEquipmentsModal"
+			>
+				<edit-items
+						:domain="domain"
+						:path="'equipment'"
 				/>
 			</k-window>
 		</div>

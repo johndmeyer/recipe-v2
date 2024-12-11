@@ -100,6 +100,19 @@
                     </k-button>
                 </div>
             </div>
+            <br />
+            <div
+                class="row"
+            >
+                <div
+                    class="col-sm-12"
+                    v-if="this.path === 'ingredient' || this.path === 'equipment'"
+                >
+                    <k-text-box
+                            v-model="parentDescription"
+                    />
+                </div>
+            </div>
         </form>
         <br />
         <div
@@ -158,7 +171,20 @@
                             Save
                         </k-button>
                     </div>
-                </div>      
+                </div>
+                <br />
+                <div
+                    class="row"
+                >
+                    <div
+                        class="col-sm-12"
+                        v-if="this.path === 'ingredient' || this.path === 'equipment'"
+                    >
+                        <k-text-box
+                            v-model="childDescription"
+                        />
+                    </div>
+                </div>
             </form>
         </div>        
     </div>    
