@@ -6,7 +6,7 @@ const logicCreateEquipment = async (inputs) => {
     const params = { 
         procName: 'createEquipment', 
         procArgs: [
-            { name: 'equipmentDescription', type: 'string', value: inputs.equpmentDescription },
+            { name: 'equipmentDescription', type: 'string', value: inputs.equipmentDescription },
             { name: 'equipmentParentId', value: inputs.equipmentParentId },
             { name: 'equipmentName', type: 'string', value: inputs.equipmentName }            
         ]

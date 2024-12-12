@@ -28,18 +28,27 @@ router.post('/:ingredientId/:ingredientName', async(req, res, next) => {
     }
 });
 
-router.put('/:ingredientId/:ingredientName', async(req, res, next) => {
+router.put('/:ingredientName', async(req, res, next) => {
     try {
         const ingredientDescription = req.body.ingredientDescription; // TODO: handle bad input
-        const ingredientId = req.params.ingredientId; // TODO: handle bad input
         const ingredientName = req.params.ingredientName; // TODO: handle bad input
 
-        res.send(await logicCreateIngredient({ ingredientDescription, ingredientId, ingredientName }))
+        res.send(await logicCreateIngredient({ ingredientDescription, ingredientName }))
     } catch (err) {
         next(err);
     }
 });
 
+router.put('/:ingredientParentId/:ingredientName', async(req, res, next) => {
+    try {
+        const ingredientDescription = req.body.ingredientDescription; // TODO: handle bad input
+        const ingredientParentId = req.params.ingredientParentId; // TODO: handle bad input
+        const ingredientName = req.params.ingredientName; // TODO: handle bad input
 
+        res.send(await logicCreateIngredient({ ingredientDescription, ingredientParentId, ingredientName }))
+    } catch (err) {
+        next(err);
+    }
+});
 
 module.exports = router;
