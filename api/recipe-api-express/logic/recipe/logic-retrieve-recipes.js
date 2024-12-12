@@ -3,7 +3,14 @@
 const execProc = require('../../data/mssql-utils');
 
 const logicRetrieveRecipe = async (inputs) => {
-    const params = { procName: 'retrieveRecipes' };
+    const params = { 
+        procName: 'retrieveRecipes', 
+        procArgs: [
+            { name: 'recipeCookTime', value: inputs.cookTime },
+            { name: 'recipeDifficultyId', value: inputs.difficultyId },
+            { name: 'recipeTagId', value: inputs.tagId },
+        ]  
+    };
 
     const recordsets = await execProc(params);
 

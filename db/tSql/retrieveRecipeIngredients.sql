@@ -34,8 +34,7 @@ SELECT
 	ri.quantity,
 	u.unitName,
 	i.ingredientName,
-	i.ingredientDescription,
-	it.ingredientTypeName	
+	i.ingredientDescription
 FROM
 	recipe.dbo.recipe AS r
 	LEFT OUTER JOIN
@@ -44,9 +43,6 @@ FROM
 	LEFT OUTER JOIN
 	ingredient AS i
 		ON ri.ingredientId = i.ingredientId
-	LEFT OUTER JOIN
-	ingredientType AS it
-		on i.ingredientTypeId = it.ingredientTypeId
 	LEFT OUTER JOIN
 	unit AS u
 		ON ri.unitId = u.unitId
