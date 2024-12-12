@@ -79,7 +79,6 @@
 				this.tags.splice(index, 1);
 			},
             handleDropDownSelect(e) {
-			    var foo = "bar";
 			     switch(e.dataType) {
 					 case 'difficulty':
 					     this.recipeDifficulty = e.id;

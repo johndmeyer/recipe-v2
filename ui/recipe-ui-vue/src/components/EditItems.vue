@@ -31,30 +31,45 @@
         emits: [],
         methods: {
             itemSelected (e) {
-                alert(`item selected ${e.selectedItemId}`);
                 this.selectedItemId = e.selectedItemId;
             },
             saveParent (e) {
                 e.preventDefault();
 
-				alert(`Form Submitted ${this.parent}`);
+                const data = {};
 
-				fetch(`${this.domain}/tag/${this.parent}`, {
-					method: 'put'
+                data[`${this.path}Description`] = this.parentDescription;
+
+				fetch(`${this.domain}/${this.path}/${this.parent}`, {
+					method: 'put',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
 				})
 			},
             saveUpdateChild (e) {
                 e.preventDefault();
 
-				alert(`Form Submitted ${this.child} ${this.selectedItemId} ${this.checked}`);
+                const data = {};
+
+                data[`${this.path}Description`] = this.childDescription;
 
                 if (this.checked) {
-                    fetch(`${this.domain}/tag/${this.selectedItemId}/${this.child}`, {
-                        method: 'put'
+                    fetch(`${this.domain}/${this.path}/${this.selectedItemId}/${this.child}`, {
+                        method: 'put',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
                     });
                 } else {
-                    fetch(`${this.domain}/tag/${this.selectedItemId}/${this.child}`, {
-                        method: 'post'
+                    fetch(`${this.domain}/${this.path}/${this.selectedItemId}/${this.child}`, {
+                        method: 'post',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
                     });
                 }				
             }

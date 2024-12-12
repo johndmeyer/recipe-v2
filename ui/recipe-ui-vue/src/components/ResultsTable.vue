@@ -1,7 +1,7 @@
 <script>
-	import { Grid } from '@progress/kendo-vue-grid';
-
-
+    import { trashIcon } from "@progress/kendo-svg-icons";
+	import { Grid as KGrid } from '@progress/kendo-vue-grid';
+    import { Button as KButton } from '@progress/kendo-vue-buttons';
 
 	export default {
         props: [
@@ -9,7 +9,10 @@
             'filterCriteria'
         ],
         components: {
-            Grid
+            KButton,
+            KChipList,
+            KGrid,
+            trashIcon
         },
         data: function () {
             return {
@@ -25,6 +28,11 @@
                     {
                         title: 'Yield',
                         field: 'recipeYield'
+                    },
+                    {
+                        cell: 'deleteTemplate',
+                        className: 'text-center',
+                        width: '60px'
                     }
 				],
                 data: [],
@@ -37,6 +45,7 @@
                 },
                 skip: 0,
                 take: 10,
+                trashIcon,
                 total: 0
             }
         },
@@ -44,6 +53,11 @@
             'gridRowClick'        
         ],
         methods: {
+            deleteRecipe(e) {
+                fetch(`${this.domain}/recipe/${e.dataItem.recipeId}`, {
+                    method: 'delete'
+                });
+            },
             getRecipes() {
                 let url = `${this.domain}/recipe`;
 
@@ -74,7 +88,6 @@
                 this.getRecipes();
             },
             'filterCriteria.difficultyId': function() {
-                alert('foo!')
                 this.getRecipes();
             },
             'filterCriteria.recipeCookTime': function() {
@@ -86,13 +99,25 @@
 
 </script>
 <template>
-    <grid
+    <k-grid
         :data-items="data"
         :columns="columns"
         :pageable="pageable"
         :total="total"
-        @rowclick="(e) => $emit('gridRowClick', e.dataItem.recipeId)"
-    ></grid>
+        @rowclick="(e) => { if (e.event.target.nodeName != 'path' & e.event.target.nodeName != 'svg') { $emit('gridRowClick', e.dataItem.recipeId) } }"
+    >
+        <template v-slot:deleteTemplate="{ props }">
+            <td>
+                <k-button
+                    :svg-icon="trashIcon"
+                    @click="deleteRecipe(props)"
+                />
+            </td>
+        </template>
+    </k-grid>
 </template>
 <style>
+    td.text-center {
+        margin: 0px;
+    }
 </style>

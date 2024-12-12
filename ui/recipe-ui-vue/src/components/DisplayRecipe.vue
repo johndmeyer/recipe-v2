@@ -1,16 +1,21 @@
 <script>
+    import { ChipList as KChipList } from '@progress/kendo-vue-buttons';
+
     export default {
         props: [
             'recipeId',
             'domain',
             'path'
         ],
-        components: { },
+        components: {
+            KChipList
+        },
         data: function () {
             return {
                 recipe: {},
                 recipeEquipments: [],
-                recipeIngredients: []
+                recipeIngredients: [],
+                recipeTags: []
             }
         },
         mounted() {
@@ -20,6 +25,7 @@
                     this.recipe = data.data.recipe;
                     this.recipeEquipments = data.data.recipeEquipments;
                     this.recipeIngredients = data.data.recipeIngredients;
+                    this.recipeTags = data.data.recipeTags;
                 });
         }
     }
@@ -78,11 +84,21 @@
     <div
         class="row text-start"
     >
-            <div
-                class="col-sm-12"
-            >
-                put tags here
-            </div>    
+        <div
+            class="col-sm-12"
+        >
+            <b>Tags:</b>
+        </div>
+        <div
+            class="col-sm-12"
+        >
+            <k-chip-list
+                :rounded="'full'"
+                :key="recipeTags"
+                :default-data-items="this.recipeTags"
+                :text-field="'tagName'"
+            />
+        </div>
     </div>
     <br />
     <div
