@@ -5,7 +5,6 @@
         props: [
             'dataType',
             'domain',
-            'label',
             'path'
         ],
         components: {

@@ -4,13 +4,14 @@
 	import { 
 		TextBox as KTextBox,
 		TextArea as KTextArea
-		} from '@progress/kendo-vue-inputs';
+	} from '@progress/kendo-vue-inputs';
 	import DropDown from './DropDown.vue';
 	import DropDownTree from './DropDownTree.vue';
     
 	export default {
 		props: [
-			'domain'
+			'domain',
+			'recipeId'
 		],
         components: {
 			DropDown,
@@ -19,9 +20,8 @@
 			KTextArea,
 			KTextBox
         },
-		data: function () {
+		data() {
             return {
-				domain: this.domain,
 				currentEquipment: {},
 				currentIngredient: {
 					ingredient: null,					
@@ -29,10 +29,12 @@
 					unit: null			
 				},
 				currentTag: {},
+                domain: this.domain,
 				equipments: [],
 				ingredients: [],
 				recipeCookTime: null,
-				recipeDifficulty: null,
+				recipeDifficultyId: null,
+				recipeId: this.recipeId,
 				tags: [],
 				plusIcon,
 				trashIcon
@@ -81,39 +83,82 @@
             handleDropDownSelect(e) {
 			     switch(e.dataType) {
 					 case 'difficulty':
-					     this.recipeDifficulty = e.id;
+					     this.recipeDifficultyId = e.id;
 					 case 'cookTime':
 					     this.recipeCookTime = e.id;
 					 default:
 					     return;
 				 }
 			},
-			saveRecipe() {
-				const data = {
-					recipe: {
-						recipeCookTime: this.recipeCookTime,
-						recipeDescription: this.recipeDescription,
-						recipeDifficulty: this.recipeDifficulty,						
-						recipeDirections: this.recipeDirections,
-						recipeName: this.recipeName,						
-						recipePhotoUrl: this.recipePhotoUrl,
-						recipeYield: this.recipeYield
-					},					
-					ingredients: this.ingredients,
-					equipments: this.equipments,
-					tags: this.tags
-				};
+			handleSaveButtonClick(e) {
+			    if (this.recipeId === undefined) {
+                    this.formDataPut();
+				} else {
+                    this.formDataPost();
+				}
+			},
+			formDataGet() {
+                fetch(`${this.domain}/recipe/${this.recipeId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const recipe = data.data.recipe;
+                        this.recipeCookTime = recipe.recipeCookTime;
+                        this.recipeDescription = recipe.recipeDescription;
+                        this.recipeDifficultyId = recipe.recipeDifficultyId;
+                        this.recipeDirections = recipe.recipeDirections;
+                        this.recipeName = recipe.recipeName;
+                        this.recipePhotoUrl = recipe.recipePhotoUrl;
+                        this.recipeYield = recipe.recipeYield;
 
-				// TODO: validate data for correctness, type, sql injection, xss, etc...
-				fetch(`${this.domain}/recipe`, {
-					method: 'put',
-					headers: {
-					  	'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(data)
-				});
+                        this.equipments = data.data.recipeEquipments;
+                        this.ingredients = data.data.recipeIngredients;
+                        this.tags = data.data.recipeTags;
+                    }
+				);
+			},
+			formDataPost() {
+			    const data = this.formDataValidate();
 
-				alert(`Form Submitted ${this.recipeName} ${this.recipeIngredients}`);
+                fetch(`${this.domain}/recipe/${this.recipeId}`, {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+			},
+			formDataPut() {
+                const data = this.formDataValidate();
+
+                fetch(`${this.domain}/recipe`, {
+                    method: 'put',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+			},
+			formDataValidate() {
+                // TODO: validate data for correctness, type, sql injection, xss, etc...
+				return {
+                    recipe: {
+                        recipeCookTime: this.recipeCookTime,
+                        recipeDescription: this.recipeDescription,
+                        recipeDifficulty: this.recipeDifficultyId,
+                        recipeDirections: this.recipeDirections,
+                        recipeName: this.recipeName,
+                        recipePhotoUrl: this.recipePhotoUrl,
+                        recipeYield: this.recipeYield
+                    },
+                    equipments: this.equipments,
+                    ingredients: this.ingredients,
+                    tags: this.tags
+                };
+			}
+		},
+		mounted() {
+		    if(this.recipeId) {
+		        this.formDataGet();
 			}
 		}
     }
@@ -153,6 +198,7 @@
 		>
 			<drop-down
 				:data-type="'difficulty'"
+				:default-item-id="recipeDifficultyId"
 				:domain="domain"
 				:path="'difficulty'"
 				@dropDownSelect="handleDropDownSelect"
@@ -419,7 +465,7 @@
 			class="col-sm-12"
 		>
 			<k-button 
-				@click="saveRecipe"
+				@click="handleSaveButtonClick"
 			>
 				Save
 			</k-button>
@@ -434,5 +480,4 @@
         border-width: 1px;
         padding: 20px;
     }
-
 </style>

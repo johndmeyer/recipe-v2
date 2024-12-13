@@ -29,7 +29,7 @@
 					difficultyId: null,
 				    tagId: null
 				},
-				selectedRecipeId: 0,
+				selectedRecipeId: undefined,
                 showNewRecipeModal: false,
 				showDisplayEditModal: false,
 				showEditTagsModal: false,
@@ -201,6 +201,7 @@
 			>
 				<new-recipe
 					:domain="domain"
+					:recipeId="selectedRecipeId"
 				></new-recipe>
 			</k-window>
 			<k-window
