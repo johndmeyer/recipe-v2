@@ -10,7 +10,6 @@
         ],
         components: {
             KButton,
-            KChipList,
             KGrid,
             trashIcon
         },
