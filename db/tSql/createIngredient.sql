@@ -48,7 +48,7 @@ FROM
 WHERE
 	i.ingredientName = @ingredientName
 	AND
-	i.ingredientParentId = @ingredientParentId
+	i.ingredientDescription = @ingredientDescription
 	
 GO
 

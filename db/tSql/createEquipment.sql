@@ -48,7 +48,7 @@ FROM
 WHERE
 	e.equipmentName = @equipmentName
 	AND
-	e.equipmentParentId = @equipmentParentId
+	e.equipmentDescription = @equipmentDescription
 	
 GO
 

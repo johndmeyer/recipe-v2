@@ -28,13 +28,24 @@ router.post('/:equipmentId/:equipmentName', async(req, res, next) => {
     }
 });
 
-router.put('/:equipmentId/:equipmentName', async(req, res, next) => {
+router.put('/:equipmentName', async(req, res, next) => {
     try {
         const equipmentDescription = req.body.equipmentDescription; // TODO: handle bad input
-        const equipmentId = req.params.equipmentId; // TODO: handle bad input
         const equipmentName = req.params.equipmentName; // TODO: handle bad input
 
-        res.send(await logicCreateEquipment({ equipmentDescription, equipmentId, equipmentName }))
+        res.send(await logicCreateEquipment({ equipmentDescription, equipmentName }))
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.put('/:equipmentParentId/:equipmentName', async(req, res, next) => {
+    try {
+        const equipmentDescription = req.body.equipmentDescription; // TODO: handle bad input
+        const equipmentParentId = req.params.equipmentParentId; // TODO: handle bad input
+        const equipmentName = req.params.equipmentName; // TODO: handle bad input
+
+        res.send(await logicCreateEquipment({ equipmentDescription, equipmentParentId, equipmentName }))
     } catch (err) {
         next(err);
     }

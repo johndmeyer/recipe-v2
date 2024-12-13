@@ -1,12 +1,23 @@
 const express = require('express');
 
 const logicCreateRecipe = require('../logic/recipe/logic-create-recipe');
+const logicDeleteRecipe = require('../logic/recipe/logic-delete-recipe');
 const logicRetrieveRecipe = require('../logic/recipe/logic-retrieve-recipe');
 const logicRetrieveRecipes = require('../logic/recipe/logic-retrieve-recipes');
 const logicRetrieveRecipeEquipments = require('../logic/recipe/logic-retrieve-recipe-equipments');
 const logicRetrieveRecipeIngredients = require('../logic/recipe/logic-retrieve-recipe-ingredients');
 
 const router = express.Router();
+
+router.delete('/:recipeId', async (req, res, next) => {
+    try {
+        const recipeId = req.params.recipeId; // TODO: handle bad input
+
+        res.send(await logicDeleteRecipe({ recipeId }));
+    } catch (err) {
+        next(err);
+    }    
+});
 
 router.get('/', async (req, res, next) => {
     try {
