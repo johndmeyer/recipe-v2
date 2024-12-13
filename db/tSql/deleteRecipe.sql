@@ -29,20 +29,11 @@ CREATE PROCEDURE deleteRecipe(
 )
 AS
 
-DELETE FROM
-	dbo.recipe_tag
-WHERE
-	recipeId = @recipeId
-	
-DELETE FROM
-	dbo.recipe_ingredient
-WHERE
-	recipeId = @recipeId
+EXEC deleteRecipeEquipments @recipeId
 
-DELETE FROM
-	dbo.recipe_equipment
-WHERE
-	recipeId = @recipeId
+EXEC deleteRecipeIngredients @recipeId
+
+EXEC deleteRecipeTags @recipeId
 	
 DELETE FROM
 	dbo.recipe
@@ -50,8 +41,3 @@ WHERE
 	recipeId = @recipeId
 
 GO
-
-
-
-
-

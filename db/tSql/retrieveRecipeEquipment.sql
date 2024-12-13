@@ -30,19 +30,17 @@ CREATE PROCEDURE retrieveRecipeEquipments (
 )
 AS 
 	
-SELECT
-	e.equipmentName,
-	e.equipmentDescription
+SELECT	
+	e.equipmentDescription,
+	e.equipmentId,
+	e.equipmentName
 FROM
-	recipe.dbo.recipe AS r
-	LEFT OUTER JOIN
 	recipe_equipment AS re
-		ON r.recipeId = re.recipeId
 	LEFT OUTER JOIN
 	equipment AS e
 		ON re.equipmentId = e.equipmentId
 WHERE
-	r.recipeId = @recipeId
+	re.recipeId = @recipeId
 	
 GO
 

@@ -6,6 +6,7 @@ const logicRetrieveRecipe = require('../logic/recipe/logic-retrieve-recipe');
 const logicRetrieveRecipes = require('../logic/recipe/logic-retrieve-recipes');
 const logicRetrieveRecipeEquipments = require('../logic/recipe/logic-retrieve-recipe-equipments');
 const logicRetrieveRecipeIngredients = require('../logic/recipe/logic-retrieve-recipe-ingredients');
+const logicUpdateRecipe = require('../logic/recipe/logic-update-recipe');
 
 const router = express.Router();
 
@@ -64,6 +65,17 @@ router.put('/', async (req, res, next) => {
         const { ...recipe } = req.body;
 
         res.send(await logicCreateRecipe({ recipe }));
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.post('/:recipeId', async (req, res, next) => {
+    try {
+        const recipeId = req.params.recipeId; // TODO: handle bad input
+        const { ...recipe } = req.body; // TODO: handle bad input
+
+        res.send(await logicUpdateRecipe({ recipe, recipeId }));
     } catch (err) {
         next(err);
     }
