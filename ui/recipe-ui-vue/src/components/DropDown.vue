@@ -4,6 +4,7 @@
     export default {
         props: [
             'dataType',
+			'selectedItemId',
             'domain',
             'path'
         ],
@@ -21,11 +22,11 @@
 			defaultItem[itemName] = `Select ${this.dataType}`;
 
             return {
+                dataItems: [],
 				dataObjectName,
 				defaultItem,
 				itemId,
-                itemName,                
-                dataItems: []
+                itemName
             }
         },
         emits: [
@@ -43,8 +44,9 @@
     <drop-down-list
   		:data-items="dataItems"
 		:data-item-key="itemId"
-		:text-field="itemName"
 		:default-item="this.defaultItem"
+		:text-field="itemName"
+		:value="this.dataItems.find((e) => e[`${this.dataType}Id`] == this.selectedItemId)"
 		@change="(e) => $emit('dropDownSelect', { dataType: this.dataType, id: e.target.value[itemId], name: e.target.value[itemName] })"
     />
 </template>

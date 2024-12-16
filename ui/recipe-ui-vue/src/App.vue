@@ -6,7 +6,7 @@
 	import DropDownTree from './components/DropDownTree.vue';
 	import DisplayRecipe from './components/DisplayRecipe.vue';
 	import EditItems from './components/EditItems.vue';
-	import NewRecipe from './components/NewRecipe.vue';
+	import NewEditRecipe from './components/NewEditRecipe.vue';
 	import ResultsTable from './components/ResultsTable.vue';	
 
 	export default {
@@ -17,7 +17,7 @@
 			DropDownTree,
 			DisplayRecipe,
 			EditItems,
-			NewRecipe,
+			NewEditRecipe,
 			ResultsTable,
             KWindow
         },
@@ -29,9 +29,10 @@
 					difficultyId: null,
 				    tagId: null
 				},
+				editRecipeId: undefined,
 				selectedRecipeId: undefined,
-                showNewRecipeModal: false,
-				showDisplayEditModal: false,
+                showNewEditModal: false,
+				showDisplayModal: false,
 				showEditTagsModal: false,
 				showEditIngredientsModal: false,
 				showEditEquipmentsModal: false
@@ -49,19 +50,25 @@
 					    return;
 				}
 			},
+			handleEditRecipeClick(e) {
+			    this.editRecipeId = e.recipeId;
+                this.toggleDisplayModal();
+                this.toggleNewEditModal();
+			},
 			handleGridRowClick(recipeId) {
 				this.selectedRecipeId = recipeId;
-				this.toggleDisplayEditModal();
+				this.toggleDisplayModal();
 			},
 			handleItemSelected(e) {
                 this.selectedItemId = e.selectedItemId;
                 this.filterCriteria.tagId = e.selectedItemId;
 			},
-			toggleNewRecipeModal() {
-				this.showNewRecipeModal = !this.showNewRecipeModal;
+			toggleNewEditModal() {
+			    this.selectedRecipeId = null;
+				this.showNewEditModal = !this.showNewEditModal;
 			},
-			toggleDisplayEditModal() {
-				this.showDisplayEditModal = !this.showDisplayEditModal;
+			toggleDisplayModal() {
+				this.showDisplayModal = !this.showDisplayModal;
 			},
 			toggleEditTagsModal() {
 				this.showEditTagsModal = !this.showEditTagsModal;
@@ -145,7 +152,7 @@
 					class="col-sm-3"
 				>
 					<k-button
-						@click="toggleNewRecipeModal"
+						@click="toggleNewEditModal"
 					>
 						New Recipe
 					</k-button>
@@ -183,26 +190,28 @@
 			class="modals"
 		>
 			<k-window
-				v-if="showDisplayEditModal"				
+				v-if="showDisplayModal"
 				:initial-width="650"
 				:initial-height="700"				
-				@close="toggleDisplayEditModal"
+				@close="toggleDisplayModal"
 			>
 				<display-recipe
 					:domain="domain"
 					:path="`recipe/${selectedRecipeId}`"
-				></display-recipe>
+					@editRecipe="handleEditRecipeClick"
+				/>
 			</k-window>
 			<k-window
-				v-if="showNewRecipeModal"
+				v-if="showNewEditModal"
 				:initial-width="600"
 				:initial-height="825"
-				@close="toggleNewRecipeModal"
+				@close="toggleNewEditModal"
 			>
-				<new-recipe
+				<new-edit-recipe
 					:domain="domain"
 					:recipeId="selectedRecipeId"
-				></new-recipe>
+					@close="toggleNewEditModal"
+				/>
 			</k-window>
 			<k-window
 				v-if="showEditTagsModal"

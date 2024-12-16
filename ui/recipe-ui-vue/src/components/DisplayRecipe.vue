@@ -1,5 +1,9 @@
 <script>
-    import { ChipList as KChipList } from '@progress/kendo-vue-buttons';
+    import { plusIcon, trashIcon } from "@progress/kendo-svg-icons";
+    import {
+        Button as KButton,
+        ChipList as KChipList
+    } from '@progress/kendo-vue-buttons';
 
     export default {
         props: [
@@ -8,6 +12,7 @@
             'path'
         ],
         components: {
+            KButton,
             KChipList
         },
         data: function () {
@@ -18,6 +23,9 @@
                 recipeTags: []
             }
         },
+        emits: [
+            'editRecipe'
+        ],
         mounted() {
             fetch(`${this.domain}/${this.path}`)
                 .then(response => response.json())
@@ -125,6 +133,18 @@
         >
             <b>Directions:</b>
             {{ recipe.recipeDirections }}
+        </div>
+    </div>
+    <div
+        class="row text-end"
+    >
+        <div
+            class="col-sm-12"
+        >
+            <k-button
+                :svg-icon="plusIcon"
+                @click="(e) => $emit('editRecipe', { recipeId: this.recipeId })"
+            >Edit Recipe</k-button>
         </div>
     </div>
 </div>
