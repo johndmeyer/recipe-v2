@@ -33,6 +33,9 @@ AS
 SELECT
 	ri.quantity,
 	u.unitName,
+	u.unitId,
+	u.unitAbbreviation,
+	i.ingredientId,
 	i.ingredientName,
 	i.ingredientDescription
 FROM

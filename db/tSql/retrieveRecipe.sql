@@ -30,10 +30,9 @@ CREATE PROCEDURE retrieveRecipe (
 )
 AS 
 
---DECLARE @recipeId INT = 1;
-
 SELECT
 	d.difficultyName,
+	r.difficultyId,
 	r.recipeCookTime,
 	r.recipeDescription,
 	r.recipeDirections,

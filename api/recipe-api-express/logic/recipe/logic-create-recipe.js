@@ -1,7 +1,9 @@
 'use strict';
 
 const execProc = require('../../data/mssql-utils');
-// NOTE: It would be better to do this all in SQL as a transaction in case any one of these database saves fail...
+// NOTE: It would be better to do this all in SQL as a transaction in case any one of these database saves fail.
+// I'm using SQL Server 2008 here which does not support JSON parsing, however when I port the database to MySQL
+// I should be able to do this more elegantly
 
 const logicCreateRecipe = async (inputs) => {
     const recipe = inputs.recipe.recipe;
