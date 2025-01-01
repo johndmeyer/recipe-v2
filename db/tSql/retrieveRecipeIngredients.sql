@@ -1,60 +1,40 @@
 /*
 Name: retrieveRecipeIngredients
-Useage: EXEC retrieveRecipeIngredients @recipeId = 1
+Useage: CALL retrieveRecipeIngredients(1)
 
 */
 
-USE recipe
-GO
+USE recipe;
 
-IF EXISTS (
-	SELECT 
-		* 
-	FROM 
-		INFORMATION_SCHEMA.ROUTINES
-	WHERE
-		ROUTINE_TYPE = 'PROCEDURE' 
-		AND
-		ROUTINE_SCHEMA = 'dbo'
-		AND
-		ROUTINE_NAME = 'retrieveRecipeIngredients'
-)
-BEGIN
-	DROP PROCEDURE [dbo].retrieveRecipeIngredients
-END
+DROP PROCEDURE IF EXISTS retrieveRecipeIngredients;
 
-GO
+DELIMITER //
 
 CREATE PROCEDURE retrieveRecipeIngredients (
-	@recipeId INT
+	recipeId INT
 )
-AS 
-
-SELECT
-	ri.quantity,
-	u.unitName,
-	u.unitId,
-	u.unitAbbreviation,
-	i.ingredientId,
-	i.ingredientName,
-	i.ingredientDescription
-FROM
-	recipe.dbo.recipe AS r
-	LEFT OUTER JOIN
-	recipe_ingredient AS ri
-		ON r.recipeId = ri.recipeId
-	LEFT OUTER JOIN
-	ingredient AS i
-		ON ri.ingredientId = i.ingredientId
-	LEFT OUTER JOIN
-	unit AS u
-		ON ri.unitId = u.unitId
-WHERE
-	r.recipeId = @recipeId
+BEGIN
+	SELECT
+		ri.quantity,
+		u.unitName,
+		u.unitId,
+		u.unitAbbreviation,
+		i.ingredientId,
+		i.ingredientName,
+		i.ingredientDescription
+	FROM
+		recipe.recipe AS r
+		LEFT OUTER JOIN
+		recipe_ingredient AS ri
+			ON r.recipeId = ri.recipeId
+		LEFT OUTER JOIN
+		ingredient AS i
+			ON ri.ingredientId = i.ingredientId
+		LEFT OUTER JOIN
+		unit AS u
+			ON ri.unitId = u.unitId
+	WHERE
+		r.recipeId = recipeId;
+END //
 	
-GO
-
-
-
-
-
+DELIMITER ;

@@ -13,7 +13,7 @@ const domain = 'http://10.1.10.28:3000';
 function App() {
 	return (
 		<div className="App">
-			<h1>_*Recipe*_<img src={logo} className="App-logo" alt="logo" /></h1>
+			<h1>_*Recipe*_</h1>
 
 			<ResultsTable 
 				domain={domain}
