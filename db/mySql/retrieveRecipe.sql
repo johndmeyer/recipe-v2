@@ -32,9 +32,9 @@ BEGIN
         
         CALL retrieveRecipeIngredients(recipeId);
         
-        -- CALL retrieveRecipeEquipments(recipeId);
+        CALL retrieveRecipeEquipments(recipeId);
 
-		-- CALL retrieveRecipeTags(recipeId);
+		CALL retrieveRecipeTags(recipeId);
         
 END //
 

@@ -1,7 +1,6 @@
 /*
 Name: retrieveRecipeIngredients
 Useage: CALL retrieveRecipeIngredients(1)
-
 */
 
 USE recipe;
