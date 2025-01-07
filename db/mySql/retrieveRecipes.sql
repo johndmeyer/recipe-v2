@@ -15,7 +15,7 @@ CREATE PROCEDURE retrieveRecipes(
 	recipeCookTime INT
 )
 BEGIN
-	-- DECLARE query NVARCHAR(512);
+	SET recipeCookTime = 30;
 
 	SET @query = '
 		SELECT
@@ -35,9 +35,13 @@ BEGIN
 			recipe_tag rt
 				ON r.recipeId = rt.recipeId';
 			
--- IF @recipeTagId <> '' OR @recipeDifficultyId <> '' OR @recipeCookTime <> ''
--- 	SET @query = @query + '
--- 	WHERE'
+	IF 
+--     @recipeTagId <> '' OR 
+--     @recipeDifficultyId <> '' OR 
+    recipeCookTime <> '' THEN
+		SET @query = @query + '
+		WHERE';
+	END IF;
 -- 	
 -- IF @recipeTagId <> ''
 -- 	SET @query = @query + '
@@ -55,9 +59,10 @@ BEGIN
 -- 	SET @query = @query + '
 -- 		AND'
 -- 		
--- IF @recipeCookTime <> ''
--- 	SET @query = @query + '
--- 		r.recipeCookTime >= ' + CAST(@recipeCookTime AS VARCHAR(3))
+	IF recipeCookTime <> '' THEN
+		SET @query = @query + '
+			r.recipeCookTime >= ' + CAST(recipeCookTime AS CHAR(3));
+	END IF;
  
 	PREPARE stmt FROM @query;
     EXECUTE stmt;

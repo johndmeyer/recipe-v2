@@ -2,7 +2,7 @@
 type python app.py to run
 '''
 
-from flask import Flask, request
+from flask import Flask
 from flask_restful import Resource, Api
 
 from logic.recipe import Recipe

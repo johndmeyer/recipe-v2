@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+var expressJsdocSwagger = require('express-jsdoc-swagger');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -12,7 +13,18 @@ var recipeRouter = require('./routes/routes-recipe');
 var tagRouter = require('./routes/routes-tag');
 var unitRouter = require('./routes/routes-unit');
 
+var options = {
+  info: {
+    version: '1.0.0',
+    title: 'Recipe Api Express',
+    description: 'Recipe Api written in express.js currently pulling data from SQL Server',
+  },
+  filesPattern: `${__dirname}/routes/*.js`,
+  swaggerUIPath: '/docs',
+};
+
 var app = express();
+expressJsdocSwagger(app)(options);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
