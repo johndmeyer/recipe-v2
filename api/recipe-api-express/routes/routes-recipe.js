@@ -10,6 +10,12 @@ const logicUpdateRecipe = require('../logic/recipe/logic-update-recipe');
 
 const router = express.Router();
 
+/**
+ * DELETE /recipe/{recipeId}
+ * @summary Deletes entry from the recipe table as well as associated entries in the ingredient, equipment, and tag tables
+ * @tags Recipe
+ * @param {integer} request.query.required - The id of the recipe to be deleted
+*/
 router.delete('/:recipeId', async (req, res, next) => {
     try {
         const recipeId = req.params.recipeId; // TODO: handle bad input
@@ -30,6 +36,19 @@ router.get('/', async (req, res, next) => {
     }    
 });
 
+/**
+ * GET /recipe/{recipeId}
+ * @summary Gets a recipe by id
+ * @tags Recipe
+ * @param {integer} request.query.required - The id of the recipe to be returned
+ * @return {object} 200 - Success response
+ * @example response - 200 - example success response
+ * {
+ *   data: {
+ *   
+ *   } 
+ * }
+*/
 router.get('/:recipeId', async (req, res, next) => {
     try {
         const recipeId = req.params.recipeId; // TODO: handle bad input
