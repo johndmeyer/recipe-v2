@@ -1,4 +1,8 @@
-﻿namespace DataModels
+﻿using static DataModels.DataModelsEquipment;
+using static DataModels.DataModelsIngredient;
+using static DataModels.DataModelsTag;
+
+namespace DataModels
 {
     public class DataModelsRecipe
     {
@@ -33,11 +37,11 @@
         {
             public RecipeBase? Recipe { get; set; }
 
-            //public IEnumerable<Equipment>? Equipments { get; set; }
+            public IEnumerable<Equipment>? Equipments { get; set; }
 
-            //public IEnumerable<IngredientFull>? Ingredients { get; set; }
+            public IEnumerable<IngredientFull>? Ingredients { get; set; }
 
-            //public IEnumerable<Tag>? Tags { get; set; }
+            public IEnumerable<Tag>? Tags { get; set; }
 
         } // end
     } // end class
