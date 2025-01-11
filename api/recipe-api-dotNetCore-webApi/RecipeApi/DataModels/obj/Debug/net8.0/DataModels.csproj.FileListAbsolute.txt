@@ -1,0 +1,12 @@
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\DataModels\obj\Debug\net8.0\DataModels.GeneratedMSBuildEditorConfig.editorconfig
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\DataModels\obj\Debug\net8.0\DataModels.AssemblyInfoInputs.cache
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\DataModels\obj\Debug\net8.0\DataModels.AssemblyInfo.cs
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\DataModels\obj\Debug\net8.0\DataModels.csproj.CoreCompileInputs.cache
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\DataModels\obj\Debug\net8.0\DataModels.sourcelink.json
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\DataModels\bin\Debug\net8.0\DataModels.deps.json
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\DataModels\bin\Debug\net8.0\DataModels.dll
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\DataModels\bin\Debug\net8.0\DataModels.pdb
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\DataModels\obj\Debug\net8.0\DataModels.dll
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\DataModels\obj\Debug\net8.0\refint\DataModels.dll
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\DataModels\obj\Debug\net8.0\DataModels.pdb
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\DataModels\obj\Debug\net8.0\ref\DataModels.dll
