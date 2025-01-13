@@ -1,3 +1,4 @@
+from flask import request
 from flask_restx import fields, Namespace, Resource
 from ..data.mysql_utils import call_proc
 from ..models.equipment import equipment
@@ -16,16 +17,16 @@ getRecipes_model = api.model('data', {
 	'recipes': fields.List(fields.Nested(model_recipe))
 })
 
-@api.route('/')
+@api.route('')
 class Recipes(Resource):
 	@api.doc(description='Retrieves a list of recipes filtered by the input criteria')
 	@api.doc(model=getRecipes_model)
 	def get(self):
 		proc_name = 'retrieveRecipes'
 		proc_args = [
-			{'arg_name': 'recipeCookTime', 'arg_value': request.args.get('recipeCookTime', None)},
-			{'arg_name': 'recipeDifficultyId', 'arg_value': request.args.get('recipeDifficultyId', None)},
-			{'arg_name': 'recipeTagId', 'arg_value': request.args.get('recipeTagId', None)}
+			{'arg_name': 'recipeCookTime', 'arg_value': request.args.get('recipeCookTime', 0, int)},
+			{'arg_name': 'recipeDifficultyId', 'arg_value': request.args.get('recipeDifficultyId', 0, int)},
+			{'arg_name': 'recipeTagId', 'arg_value': request.args.get('recipeTagId', 0, int)}
 		]
 
 		result = call_proc(proc_args, proc_name)

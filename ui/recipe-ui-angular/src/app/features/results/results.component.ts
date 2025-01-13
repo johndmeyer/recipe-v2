@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { KENDO_GRID } from '@progress/kendo-angular-grid';
+import { GridModule } from '@progress/kendo-angular-grid';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'results',
-    imports: [KENDO_GRID],
+    imports: [
+        GridModule
+    ],
     template: `
         <div class="results">
             <kendo-grid [data]="gridData">
@@ -25,8 +27,8 @@ export class Results implements OnInit {
 	public gridData: unknown[] = [];
 
     ngOnInit(): void {
-        this.http.get<any>('http://localhost:5000/recipe/1').subscribe(data => {
-            this.gridData[0] = data.data.recipe;
+        this.http.get<any>('http://localhost:5000/recipe').subscribe(data => {
+            this.gridData = data.data.recipes;
         })        
     }
 }

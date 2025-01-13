@@ -27,7 +27,7 @@
 		<span><img class="angular-logo" src="angular-logo.png" /></span>
 		<span><img class="kendo-ui-logo" src="kendo-ui-logo.png" /></span>
 	</div>
-	<!-- <div
+	<div
 		class="controls"
 	>			
 		<div
@@ -35,7 +35,8 @@
 		>
 			<div 
 				class="row-insert"
-			>		
+			>
+				<!--		
 				<div
 					class="col-sm-4"
 				>
@@ -46,17 +47,19 @@
 						@itemSelected="handleItemSelected"
 					/>
 				</div>
+				-->
+				
 				<div
 					class="col-sm-4 no-pad-left"
 				>
-					<drop-down
-						:style="{ width: '300px', margin: '0 5px 10px 5px' }"
-						:data-type="'difficulty'"
-						:domain="domain"
-						:path="'difficulty'"
-						@dropDownSelect="handleDropDownSelect"
+					
+					<dropdown
+						[dataType]="'difficulty'"
+						(dropDownSelect)="handleDropDownSelect($event)"
 					/>
-				</div>
+					
+				</div>				
+				<!-- 
 				<div
 					class="col-sm-4 no-pad-left"
 				>
@@ -67,10 +70,11 @@
 						:path="'cookTime'"
 						@dropDownSelect="handleDropDownSelect"
 					/>
-				</div>
+				</div> -->
 			</div>
 		</div>
-	</div> -->
+	</div>
+	<br /> 
 	<div
 		class="results"
 	>
