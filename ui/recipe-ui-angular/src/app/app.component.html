@@ -36,7 +36,7 @@
 			<div 
 				class="row-insert"
 			>
-				<!--		
+				<!--	
 				<div
 					class="col-sm-4"
 				>
@@ -47,30 +47,25 @@
 						@itemSelected="handleItemSelected"
 					/>
 				</div>
-				-->
-				
+				-->			
+				<div
+					class="col-sm-4 no-pad-left"
+				>					
+					<dropdown
+						[domain]="domain"
+						[path]="'difficulty'"						
+						(dropDownSelect)="handleDropDownSelect($event)"
+					/>					
+				</div> 
 				<div
 					class="col-sm-4 no-pad-left"
 				>
-					
 					<dropdown
-						[dataType]="'difficulty'"
+						[domain]="domain"
+						[path]="'duration'"						
 						(dropDownSelect)="handleDropDownSelect($event)"
 					/>
-					
-				</div>				
-				<!-- 
-				<div
-					class="col-sm-4 no-pad-left"
-				>
-					<drop-down
-						:style="{ width: '300px', margin: '0 5px 10px 5px' }"
-						:data-type="'cookTime'"
-						:domain="domain"
-						:path="'cookTime'"
-						@dropDownSelect="handleDropDownSelect"
-					/>
-				</div> -->
+				</div>
 			</div>
 		</div>
 	</div>

@@ -16,7 +16,8 @@ import { Results } from './features/results/results.component';
 })
 
 export class AppComponent {
-	angularLogoSrc = '../assets/images/angular-logo.png';
+	public domain: string = 'localhost:5000'
+	angularLogoSrc = 'angular-logo.png';
 	title = 'recipe-ui-angular';
 
 	public handleDropDownSelect(value: any) {

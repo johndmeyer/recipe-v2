@@ -48,7 +48,6 @@ getRecipe_model = api.model('data', {
 })
 
 @api.route('/<id>')
-
 class Recipe(Resource):
 	@api.doc(params={'id': 'The id of the recipe to be returned'})
 	@api.doc(description='Retrieves a recipe by id')
