@@ -1,5 +1,5 @@
 /*
-Name: retrieveIngredients
+Name: retrieveRecipe
 Useage: CALL retrieveRecipe(1)
 */
 

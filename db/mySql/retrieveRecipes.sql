@@ -1,6 +1,6 @@
 /*
 Name: retrieveRecipes
-Useage: CALL retrieveRecipes(1, 2, 60)
+Useage: CALL retrieveRecipes(-60, 0, 0)
 */
 
 USE recipe;
@@ -10,17 +10,15 @@ DROP PROCEDURE IF EXISTS retrieveRecipes;
 DELIMITER //
 
 CREATE PROCEDURE retrieveRecipes(
-	recipeTagId INT,
-	recipeDifficultyId INT,
-	recipeCookTime INT
+	recipeCookTime INT,
+    recipeDifficultyId INT,
+	recipeTagId INT
 )
 BEGIN
-	SET recipeCookTime = 30;
-
 	SET @query = '
 		SELECT
 			r.recipeId,
-			r.recipeName,
+			r.recipeName, 
 			r.recipeDescription,
 			r.recipePhotoUrl,
 			r.recipeCookTime,
@@ -35,35 +33,70 @@ BEGIN
 			recipe_tag rt
 				ON r.recipeId = rt.recipeId';
 			
-	IF 
---     @recipeTagId <> '' OR 
---     @recipeDifficultyId <> '' OR 
-    recipeCookTime <> '' THEN
-		SET @query = @query + '
-		WHERE';
+	IF
+		recipeCookTime <> 0  OR
+        recipeDifficultyId <> 0 OR
+		recipeTagId <> 0 
+	THEN
+		SET @query = CONCAT(
+			@query,
+			' WHERE '
+		);
 	END IF;
--- 	
--- IF @recipeTagId <> ''
--- 	SET @query = @query + '
--- 		rt.tagId = ' + CAST(@recipeTagId AS VARCHAR(8))
--- 		
--- IF @recipeTagId <> '' AND @recipeDifficultyId <> ''
--- 	SET @query = @query + '
--- 		AND'
--- 		
--- IF @recipeDifficultyId <> ''
--- 	SET @query = @query + '
--- 		d.difficultyId >= ' + CAST(@recipeDifficultyId AS VARCHAR(1))
--- 		
--- IF (@recipeTagId <> '' OR @recipeDifficultyId <> '') AND @recipeCookTime <> ''
--- 	SET @query = @query + '
--- 		AND'
--- 		
-	IF recipeCookTime <> '' THEN
-		SET @query = @query + '
-			r.recipeCookTime >= ' + CAST(recipeCookTime AS CHAR(3));
+    
+    IF 
+		recipeCookTime <> 0 
+    THEN
+ 		SET @query = CONCAT(
+			@query,
+            ' r.recipeCookTime >= ',
+            CAST(recipeCookTime AS CHAR(3))
+		);
+ 	END IF;
+    
+    IF
+		recipeCookTime <> 0 AND
+        recipeDifficultyId <> 0
+	THEN
+		SET @query = CONCAT(
+			@query,
+            ' AND '
+		);
 	END IF;
- 
+    
+    IF
+		recipeDifficultyId <> 0
+	THEN
+		SET @query = CONCAT(
+			@query,
+            ' d.difficultyId >= ',
+            CAST(recipeDifficultyId AS CHAR(1))
+		);
+	END IF;
+    
+    IF 
+		(recipeCookTime <> 0 OR recipeDifficultyId <> 0) 
+        AND 
+        recipeTagId <> 0
+	THEN
+		SET @query = CONCAT(
+			@query,
+            ' AND '
+		);
+	END IF;
+    
+    IF
+		recipeTagId <> 0
+	THEN
+		SET @query = CONCAT(
+			@query,
+            ' rt.tagId = ',
+            CAST(recipeTagId AS CHAR(8))
+		);
+	END IF;
+
+	-- SELECT @query; -- Uncomment for debugging
+
 	PREPARE stmt FROM @query;
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;

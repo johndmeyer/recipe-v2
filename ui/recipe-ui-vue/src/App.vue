@@ -87,9 +87,21 @@
 	<div
 		class="recipeMain"
 	>
-		<h1>
-			..-recipe-..
-		</h1>
+		<div class="container">
+			<div class="row">
+				<h1>
+					..-recipe-..
+				</h1>
+			</div>
+			<div class="row built-with">
+				<span>Built with:</span>
+				<span><img class="vue-logo" src="../public/vue-logo.png"></span>
+				<span><img class="vite-logo" src="../public/vite-logo.png"></span>
+				<span><img class="bootstrap-logo" src="../public/bootstrap-logo.png"></span>
+				<span><img class="kendo-ui-logo" src="../public/kendo-ui-logo.png"></span>
+			</div>
+		</div>
+		
 		<br />
 		<div
 			class="controls container"
@@ -253,6 +265,27 @@
 <style scoped>
 	.recipeMain {
 		text-align: center;
+
+		.built-with {
+			display: inline;
+		}
+		.vue-logo {
+			max-width: 125px;
+			vertical-align: middle;
+		}
+		.vite-logo {
+			max-width: 125px;
+			vertical-align: middle;
+		}
+		.bootstrap-logo {
+			max-width: 125px;
+			vertical-align: middle;
+		}
+		.kendo-ui-logo {
+			max-width: 125px;
+			vertical-align: middle;
+			background-color: white;
+		}
 
 		.controls {
 			.row-insert {
