@@ -1,6 +1,6 @@
 'use strict';
 
-const execProc = require('../../data/mssql-utils');
+const getData = require('../../data/data-utils');
 
 const logicCreateEquipment = async (inputs) => {
     const params = { 
@@ -10,7 +10,7 @@ const logicCreateEquipment = async (inputs) => {
         ]
     };
 
-    await execProc(params);
+    await getData(params);
 
     return;
 }

@@ -9,7 +9,7 @@ const logicUpdateEquipment = require('../logic/equipment/logic-update-equipment'
 const router = express.Router();
 
 /**
- * DELETE /equipment/{id}
+ * DELETE /equipment/{equipmentId}
  * @summary Deletes an equipment table entry and all entries in the recipe-equipment table for a given equipmentId
  * @tags Equipment
  * @param {integer} equipmentId.path.required
@@ -24,25 +24,36 @@ router.delete('/:equipmentId', async (req, res, next) => {
 });
 
 /**
- * GET /equipment/{equipmentId}
+ * GET /equipment
  * @summary Retrieves a hierarchical list of equipment - used for drop down
  * @tags Equipment
- * @param {integer} ingredientId.path - IngredientId brings back a single ingredient if passed, if ommited returns a hierarchical list of  all equipment
  * @return {object} 200 - Success response
  * @example response - 200 - example success response
  * {
- *   data: {
- *     equipment: [
- *       {
- *         equipmentId: 30,
- *         equipmentName: '30 minutes or less',
- *         equipmentParentId: 5
- *       }
+ *  data: {
+ *   equipment: [
+ *    {
+ *     equipmentId: 2,
+ *     equipmentName: "Food Preparation",
+ *     equipmentParentId: null,
+ *     equipmentDescription: "Other items used in cooking (e.g. cutting board, spatula, etc...)",
+ *     equipmentPhotoUrl: null,
+ *     items: [
+ *      {
+ *       equipmentId: 4,
+ *       equipmentName: "Dutch Oven",
+ *       equipmentParentId: 2,
+ *       equipmentDescription: "A heavy, wide, fairly shallow pot with a tight fitting lid",
+ *       equipmentPhotoUrl: null,
+ *       items: []
+ *      }
  *     ]
- *   }  
+ *    }
+ *   ]
+ *  }  
  * }
 */
-router.get('/:ingredientId', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
         res.send(await logicRetrieveEquipments())
     } catch (err) {
@@ -62,8 +73,20 @@ router.get('/:ingredientId', async (req, res, next) => {
  *   equipmentName: 'Equipment name here'
  *   equipmentDescription: 'Equipment description here'   
  * }
+ * @example response - 200 - example success response
+ * {
+ *   data: {
+ *     equipment: [
+ *       {
+ *         equipmentId: 30,
+ *         equipmentName: 'Dutch Oven',
+ *         equipmentParentId: 5
+ *       }
+ *     ]
+ *   } 
+ * }
 */
-router.post('/:equipmentId/:equipmentName', async(req, res, next) => {
+router.post('/', async(req, res, next) => {
     try {
         const equipmentDescription = req.body.equipmentDescription; // TODO: handle bad input
         const equipmentId = req.body.equipmentId; // TODO: handle bad input
@@ -93,14 +116,14 @@ router.post('/:equipmentId/:equipmentName', async(req, res, next) => {
  *     equipment: [
  *       {
  *         equipmentId: 30,
- *         equipmentName: '30 minutes or less',
+ *         equipmentName: 'Dutch Oven',
  *         equipmentParentId: 5
  *       }
  *     ]
  *   } 
  * }
 */
-router.put('/:equipmentParentId/:equipmentName', async(req, res, next) => {
+router.put('/', async(req, res, next) => {
     try {
         const equipmentDescription = req.body.equipmentDescription; // TODO: handle bad input
         const equipmentParentId = req.params.equipmentParentId; // TODO: handle bad input

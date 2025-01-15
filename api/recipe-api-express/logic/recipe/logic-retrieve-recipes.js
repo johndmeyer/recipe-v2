@@ -1,6 +1,6 @@
 'use strict';
 
-const execProc = require('../../data/mssql-utils');
+const getData = require('../../data/data-utils');
 
 const logicRetrieveRecipe = async (inputs) => {
     const params = { 
@@ -12,7 +12,7 @@ const logicRetrieveRecipe = async (inputs) => {
         ]  
     };
 
-    const recordsets = await execProc(params);
+    const recordsets = await getData(params);
 
     return {
         data: {

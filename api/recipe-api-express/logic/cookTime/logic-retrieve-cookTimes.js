@@ -1,7 +1,5 @@
 'use strict';
 
-const execProc = require('../../data/mssql-utils');
-
 const logicRetrieveUnits = async () => {
     return { 
         data: { 

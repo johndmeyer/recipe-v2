@@ -1,6 +1,6 @@
 'use strict';
 
-const execProc = require('../../data/mssql-utils');
+const getData = require('../../data/data-utils');
 // NOTE: It would be better to do this all in SQL as a transaction in case any one of these database saves fail.
 // I'm using SQL Server 2008 here which does not support JSON parsing, however when I port the database to MySQL
 // I should be able to do this more elegantly
@@ -25,10 +25,10 @@ const logicUpdateRecipe = async (inputs) => {
         ]
     };
 
-    await execProc(recipeParams);
+    await getData(recipeParams);
 
     // Delete all existing equipments
-    await execProc({ procName: 'deleteRecipeEquipments', procArgs: [{ name: 'recipeId', value: inputs.recipeId }] });
+    await getData({ procName: 'deleteRecipeEquipments', procArgs: [{ name: 'recipeId', value: inputs.recipeId }] });
     
     // Re-add all new ingredients
     for (const equipment of equipments) {
@@ -40,11 +40,11 @@ const logicUpdateRecipe = async (inputs) => {
             ]
         }
 
-        await execProc(equipmentParams);
+        await getData(equipmentParams);
     }
 
     // Delete all existing ingredients
-    await execProc({ procName: 'deleteRecipeIngredients', procArgs: [{ name: 'recipeId', value: inputs.recipeId }] });
+    await getData({ procName: 'deleteRecipeIngredients', procArgs: [{ name: 'recipeId', value: inputs.recipeId }] });
 
     // Re-add all new ingredients
     for (const ingredient of ingredients) {
@@ -58,11 +58,11 @@ const logicUpdateRecipe = async (inputs) => {
             ]
         }
 
-        await execProc(ingredientParams);
+        await getData(ingredientParams);
     }
 
     // Delete all existing tags
-    await execProc({ procName: 'deleteRecipeTags', procArgs: [{ name: 'recipeId', value: inputs.recipeId }] });
+    await getData({ procName: 'deleteRecipeTags', procArgs: [{ name: 'recipeId', value: inputs.recipeId }] });
 
     // Re-add all new tags
     for (const tag of tags) {
@@ -74,7 +74,7 @@ const logicUpdateRecipe = async (inputs) => {
             ]
         }
 
-        await execProc(tagParams);
+        await getData(tagParams);
     }
 
     return { data: { recipeId: inputs.recipeId } };

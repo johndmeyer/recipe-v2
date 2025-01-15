@@ -1,12 +1,12 @@
 'use strict';
 
-const execProc = require('../../data/mssql-utils');
+const getData = require('../../data/data-utils');
 const buildJsonTree = require('../_baseLogic');
 
 const logicRetrieveTags = async (inputs) => {
     const params = { procName: 'retrieveTags'};
 
-    const recordsets = await execProc(params);
+    const recordsets = await getData(params);
 
     const jsonTree = buildJsonTree(recordsets[0], 'tag')
 

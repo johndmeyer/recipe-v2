@@ -1,6 +1,6 @@
 'use strict';
 
-const execProc = require('../../data/mssql-utils');
+const getData = require('../../data/data-utils');
 // NOTE: It would be better to do this all in SQL as a transaction in case any one of these database saves fail.
 // I'm using SQL Server 2008 here which does not support JSON parsing, however when I port the database to MySQL
 // I should be able to do this more elegantly
@@ -24,7 +24,7 @@ const logicCreateRecipe = async (inputs) => {
         ]
     };
 
-    const recordsets = await execProc(recipeParams);
+    const recordsets = await getData(recipeParams);
 
     const recipeId = recordsets[0][0].recipeId;
 
@@ -39,7 +39,7 @@ const logicCreateRecipe = async (inputs) => {
             ]
         }
 
-        await execProc(ingredientParams);
+        await getData(ingredientParams);
     }
 
     for (const equipment of equipments) {
@@ -51,7 +51,7 @@ const logicCreateRecipe = async (inputs) => {
             ]
         }
 
-        await execProc(equipmentParams);
+        await getData(equipmentParams);
     }
 
     for (const tag of tags) {
@@ -63,7 +63,7 @@ const logicCreateRecipe = async (inputs) => {
             ]
         }
 
-        await execProc(tagParams);
+        await getData(tagParams);
     }
 
     return { data: { recipeId } };
