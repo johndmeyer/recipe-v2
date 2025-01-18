@@ -3,7 +3,7 @@
 const getData = require('../../data/data-utils');
 
 const logicRetrieveUnits = async (inputs) => {
-    const params = { procName: 'retrieveUnits', procArgs: [{ name: 'unitTypeName', value: inputs.unitTypeName }] };
+    const params = { procName: 'retrieveUnits', procArgs: [{ name: 'unitTypeId', value: inputs.unitTypeId }] };
 
     const recordsets = await getData(params);
 

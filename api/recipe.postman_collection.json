@@ -1,0 +1,576 @@
+{
+	"info": {
+		"_postman_id": "cad094ee-878d-4177-9811-94d8f95eae75",
+		"name": "recipe",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": " GET /cooktime",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6521f59b-cb2d-46f3-9704-01eb30b9c68f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/duration",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"duration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": " GET /difficulty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2092e83c-866f-4676-8efe-7b59640e5b67",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/difficulty",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"difficulty"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /equipment",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/equipment",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"equipment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /equipment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2595d641-c72e-4e10-86fe-7f5d5cfd45f8",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Response contains object we created\", function () {",
+							"    const myNewObject = jsonData.data.equipments.find(equipment => equipment.equipmentName === \"Postman test equipment name\");",
+							"",
+							"    pm.expect(myNewObject).not.eql(null);",
+							"",
+							"    if (myNewObject != null) {",
+							"        pm.environment.set(\"equipmentId\", myNewObject.equipmentId);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"equipmentDescription\": \"Postman test equipment description\",\n    \"equipmentName\": \"Postman test equipment name\",\n    \"equipmentParentId\": null\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/equipment",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"equipment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /equipment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"equipmentDescription\": \"Postman test equipment description - updated\",\n    \"equipmentName\": \"Postman test equipment name - updated\",\n    \"equipmentId\": {{equipmentId}}\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/equipment",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"equipment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /equipment/{equipmentId}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/equipment/{{equipmentId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"equipment",
+						"{{equipmentId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /ingredient",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/ingredient",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"ingredient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /ingredient",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "19dedd28-d929-463a-ae33-e174c992743c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Response contains object we created\", function () {",
+							"    const myNewObject = jsonData.data.ingredients.find(ingredient => ingredient.ingredientName === \"Postman test ingredient name\");",
+							"",
+							"    pm.expect(myNewObject).not.eql(null);",
+							"",
+							"    if (myNewObject != null) {",
+							"        pm.environment.set(\"ingredientId\", myNewObject.ingredientId);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ingredientDescription\": \"Postman test ingredient description\",\n    \"ingredientName\": \"Postman test ingredient name\",\n    \"ingredientParentId\": null,\n    \"ingredientPhotoUrl\": null\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/ingredient",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"ingredient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /ingredient",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ingredientDescription\": \"Postman test ingredient description - updated\",\n    \"ingredientId\": {{ingredientId}},\n    \"ingredientName\": \"Postman test ingredient name - updated\"\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/ingredient",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"ingredient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE ingredient/{ingredientId}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/ingredient/{{ingredientId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"ingredient",
+						"{{ingredientId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /recipe",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/recipe",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"recipe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /recipe/{recipeId}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/recipe/{{recipeId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"recipe",
+						"{{recipeId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /recipe",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"recipe\": {\n        \"recipeDescription\": \"A slightly spicy soup made with chicken, rice, and garbanzo beans\",\n        \"recipeDifficultyId\": 2, \n        \"recipeDirections\": \"yada yada\",\n        \"recipeDuration\": 60,\n        \"recipeName\": \"Bowl of the Wife of Kit Carson - v2\",\n        \"recipePhotoUrl\": \"https://centerofthewest.org/wp-content/uploads/2023/03/PW343_recipe-chicken-soup.jpg\",\n        \"recipeYield\": 6\n    },\n    \"recipeEquipments\": [\n        {\n            \"equipmentId\": 5\n        },\n        {\n            \"equipmentId\": 4\n        }\n    ],\n    \"recipeIngredients\": [\n        {\n            \"quantity\": 1,\n            \"unitId\": null,\n            \"ingredientId\": 15\n        },\n        {\n            \"quantity\": 250,\n            \"unitId\": 4,\n            \"ingredientId\": 12\n        }\n    ],\n    \"recipeTags\": [\n        {\n            \"tagId\": 9\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/recipe",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"recipe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /recipe",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"recipe\": {\n        \"recipeDescription\": \"A slightly spicy soup made with chicken, rice, and garbanzo beans\",\n        \"recipeDifficultyId\": 2, \n        \"recipeDirections\": \"yada yada\",\n        \"recipeDuration\": 60,\n        \"recipeId\": 6,\n        \"recipeName\": \"Bowl of the Wife of Kit Carson - v4\",\n        \"recipePhotoUrl\": \"https://centerofthewest.org/wp-content/uploads/2023/03/PW343_recipe-chicken-soup.jpg\",\n        \"recipeYield\": 6\n    },\n    \"recipeEquipments\": [\n        {\n            \"equipmentId\": 5\n        },\n        {\n            \"equipmentId\": 4\n        }\n    ],\n    \"recipeIngredients\": [\n        {\n            \"quantity\": 1,\n            \"unitId\": null,\n            \"ingredientId\": 15\n        },\n        {\n            \"quantity\": 250,\n            \"unitId\": 4,\n            \"ingredientId\": 12\n        }\n    ],\n    \"recipeTags\": [\n        {\n            \"tagId\": 9\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/recipe",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"recipe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE recipe/{{recipeId}}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/recipe/{{recipeId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"recipe",
+						"{{recipeId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /tag",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/tag",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"tag"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /tag",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"tagName\": \"Sour\",\n    \"tagParentId\": 7\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/tag",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"tag"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /tag",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"tagName\": \"Bitter\",\n    \"tagId\": 11\n}"
+				},
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/tag",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"tag"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /tag/{{tagId}}",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/tag/{{tagId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"tag",
+						"{{tagId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /unit/{unitTypeId}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/unit/1",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"unit",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /unit/types",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{domain}}:{{port}}/unit/types",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{domain}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"unit",
+						"types"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

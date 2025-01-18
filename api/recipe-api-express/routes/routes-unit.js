@@ -50,11 +50,11 @@ router.get('/types', async (req, res, next) => {
  *   }  
  * }
 */
-router.get('/:unitTypeName', async (req, res, next) => {
+router.get('/:unitTypeId', async (req, res, next) => {
     try {
-        const unitTypeName = req.params.unitTypeName; // TODO: handle bad input
+        const unitTypeId = req.params.unitTypeId; // TODO: handle bad input
 
-        res.send(await logicRetrieveUnits({ unitTypeName }))
+        res.send(await logicRetrieveUnits({ unitTypeId }))
     } catch (err) {
         next(err);
     }    

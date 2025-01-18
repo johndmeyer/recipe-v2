@@ -16,7 +16,7 @@ const logicRetrieveRecipe = async (inputs) => {
 
     return {
         data: {
-            recipe: recordsets[0]
+            recipes: recordsets[0]
         }
     }
 }

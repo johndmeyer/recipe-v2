@@ -3,6 +3,7 @@
 const express = require('express');
 
 const logicCreateIngredient = require('../logic/ingredient/logic-create-ingredient');
+const logicDeleteIngredient = require('../logic/ingredient/logic-delete-ingredient');
 const logicRetrieveIngredients = require('../logic/ingredient/logic-retrieve-ingredients');
 const logicUpdateIngredient = require('../logic/ingredient/logic-update-ingredient');
 
@@ -17,7 +18,9 @@ const router = express.Router();
 */
 router.delete('/:ingredientId', async (req, res, next) => {
     try {
-        res.send('Sorry not yet implemented')
+        const ingredientId = req.params.ingredientId;
+
+        res.send(await logicDeleteIngredient({ ingredientId }))
     } catch (err) {
         next(err);
     } 
@@ -114,7 +117,7 @@ router.post('/', async(req, res, next) => {
  * @example response - 200 - example success response
  * {
  *   data: {
- *     ingredient: [
+ *     ingredients: [
  *       {
  *         ingredientId: 30,
  *         ingredientName: '30 minutes or less',
@@ -129,7 +132,7 @@ router.put('/', async(req, res, next) => {
     try {
         const ingredientDescription = req.body.ingredientDescription; // TODO: handle bad input
         const ingredientName = req.body.ingredientName; // TODO: handle bad input
-        const ingredientParentId = req.body.equipmentParentId; // TODO: handle bad input
+        const ingredientParentId = req.body.equipmentParentId ?? 0; // TODO: handle bad input
 
         res.send(await logicCreateIngredient({ ingredientDescription, ingredientName, ingredientParentId }))
     } catch (err) {

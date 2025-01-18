@@ -25,7 +25,7 @@ const buildQuery = (params) => {
         let argCounter = 0;
 
         for (const arg of params.procArgs) {
-            if (arg.value) {
+            if (arg.value != undefined) {
                 if (arg.type === 'string') { // TODO: Break this up so the logic isn't so dense
                     query = `${query}${argCounter !== 0 ? ',' : ''}'${arg.value}'`;
                 } else {

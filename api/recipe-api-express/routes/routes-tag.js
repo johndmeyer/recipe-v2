@@ -3,6 +3,7 @@
 const express = require('express');
 
 const logicCreateTag = require('../logic/tag/logic-create-tag');
+const logicDeleteTag = require('../logic/tag/logic-delete_tag');
 const logicRetrieveTags = require('../logic/tag/logic-retrieve-tags');
 const logicUpdateTag = require('../logic/tag/logic-update-tag');
 
@@ -17,7 +18,9 @@ const router = express.Router();
 */
 router.delete('/:tagId', async (req, res, next) => {
     try {
-        res.send('Sorry not yet implemented')
+        const tagId = req.params.tagId; // TODO: handle bad input 
+
+        res.send(await logicDeleteTag({ tagId }))
     } catch (err) {
         next(err);
     } 
@@ -31,7 +34,7 @@ router.delete('/:tagId', async (req, res, next) => {
  * @example response - 200 - example success response
  * {
  *   data: {
- *     tag: [
+ *     tags: [
  *       {
  *         tagId: 30,
  *         tagName: '30 minutes or less',
@@ -63,7 +66,7 @@ router.get('/', async (req, res, next) => {
  * @example response - 200 - example success response
  * {
  *   data: {
- *     tag: [
+ *     tags: [
  *       {
  *         tagId: 30,
  *         tagName: 'Savory',
@@ -75,8 +78,8 @@ router.get('/', async (req, res, next) => {
 */
 router.post('/', async (req, res, next) => {
     try {
-        const tagId = req.params.tagId; // TODO: handle bad input
-        const tagName = req.params.tagName; // TODO: handle bad input        
+        const tagId = req.body.tagId; // TODO: handle bad input
+        const tagName = req.body.tagName; // TODO: handle bad input        
 
         res.send(await logicUpdateTag({ tagId, tagName }))
     } catch (err) {
@@ -98,7 +101,7 @@ router.post('/', async (req, res, next) => {
  * @example response - 200 - example success response
  * {
  *   data: {
- *     tag: [
+ *     tags: [
  *       {
  *         tagId: 30,
  *         tagName: 'Savory',
@@ -110,10 +113,10 @@ router.post('/', async (req, res, next) => {
 */
 router.put('/', async (req, res, next) => {
     try {
-        const tagId = req.params.tagId; // TODO: handle bad input
-        const tagName = decodeURI(req.params.tagName); // TODO: handle bad input
+        const tagName = decodeURI(req.body.tagName); // TODO: handle bad input
+        const tagParentId = req.body.tagParentId ?? 0; // TODO: handle bad input        
 
-        res.send(await logicCreateTag({ tagId, tagName }))
+        res.send(await logicCreateTag({ tagParentId, tagName }))
     } catch (err) {
         next(err);
     }    

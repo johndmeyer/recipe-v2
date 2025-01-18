@@ -6,14 +6,14 @@ const logicUpdateTag = async (inputs) => {
     const params = { 
         procName: 'updateTag', 
         procArgs: [
-            { name: 'tagName', value: inputs.tagName },
-            { name: 'tagId', value: inputs.tagId }
+            { name: 'tagId', value: inputs.tagId },
+            { name: 'tagName', type: 'string', value: inputs.tagName }            
         ]
     };
 
     const recordsets = await getData(params);
 
-    return { data: { tagId: recordsets[0][0].tagId } };
+    return { data: { tags: recordsets[0] } };
 }
 
 module.exports = logicUpdateTag;

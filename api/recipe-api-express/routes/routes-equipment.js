@@ -3,6 +3,7 @@
 const express = require('express');
 
 const logicCreateEquipment = require('../logic/equipment/logic-create-equipment');
+const logicDeleteEquipment = require('../logic/equipment/logic-delete-equipment');
 const logicRetrieveEquipments = require('../logic/equipment/logic-retrieve-equipments');
 const logicUpdateEquipment = require('../logic/equipment/logic-update-equipment');
 
@@ -17,7 +18,9 @@ const router = express.Router();
 */
 router.delete('/:equipmentId', async (req, res, next) => {
     try {
-        res.send('Sorry not yet implemented')
+        const equipmentId = req.params.equipmentId;
+
+        res.send(await logicDeleteEquipment({ equipmentId }))
     } catch (err) {
         next(err);
     } 
@@ -31,7 +34,7 @@ router.delete('/:equipmentId', async (req, res, next) => {
  * @example response - 200 - example success response
  * {
  *  data: {
- *   equipment: [
+ *   equipments: [
  *    {
  *     equipmentId: 2,
  *     equipmentName: "Food Preparation",
@@ -76,7 +79,7 @@ router.get('/', async (req, res, next) => {
  * @example response - 200 - example success response
  * {
  *   data: {
- *     equipment: [
+ *     equipments: [
  *       {
  *         equipmentId: 30,
  *         equipmentName: 'Dutch Oven',
@@ -113,7 +116,7 @@ router.post('/', async(req, res, next) => {
  * @example response - 200 - example success response
  * {
  *   data: {
- *     equipment: [
+ *     equipments: [
  *       {
  *         equipmentId: 30,
  *         equipmentName: 'Dutch Oven',
@@ -126,10 +129,10 @@ router.post('/', async(req, res, next) => {
 router.put('/', async(req, res, next) => {
     try {
         const equipmentDescription = req.body.equipmentDescription; // TODO: handle bad input
-        const equipmentParentId = req.params.equipmentParentId; // TODO: handle bad input
-        const equipmentName = req.params.equipmentName; // TODO: handle bad input
+        const equipmentName = req.body.equipmentName; // TODO: handle bad input
+        const equipmentParentId = req.body.equipmentParentId ?? 0; // TODO: handle bad input        
 
-        res.send(await logicCreateEquipment({ equipmentDescription, equipmentParentId, equipmentName }))
+        res.send(await logicCreateEquipment({ equipmentDescription, equipmentName, equipmentParentId }))
     } catch (err) {
         next(err);
     }

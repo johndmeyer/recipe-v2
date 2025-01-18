@@ -53,9 +53,11 @@ router.delete('/:recipeId', async (req, res, next) => {
 */
 router.get('/', async (req, res, next) => {
     try {
-        const { cookTime, difficultyId, tagId } = req.query; // TODO: handle bad input
+        const cookTime = Number(req.query.cookTime) ?? 0;
+        const difficultyId = Number(req.query.difficultyId) ?? 0;
+        const tagId = Number(req.query.tagId) ?? 0; // TODO: handle bad input
 
-        res.send(await logicRetrieveRecipes(cookTime, difficultyId, tagId))
+        res.send(await logicRetrieveRecipes({ cookTime, difficultyId, tagId }))
     } catch (err) {
         next(err);
     }    
@@ -127,11 +129,11 @@ router.get('/:recipeId', async (req, res, next) => {
  * @example request - example payload
  * {
  *  recipe: {
- *   difficultyName: "Medium",
- *   difficultyId: 2,
- *   recipeCookTime: 60,
  *   recipeDescription: "A slightly spicy soup made with chicken, rice, and garbanzo beans",
+ *   recipeDifficultyId: 2,
  *   recipeDirections: "yada yada",
+ *   recipeDuration: 60,
+ *   recipeId: 6,
  *   recipeName: "Bowl of the Wife of Kit Carson",
  *   recipePhotoUrl: "https://centerofthewest.org/wp-content/uploads/2023/03/PW343_recipe-chicken-soup.jpg",
  *   recipeYield: 6
@@ -139,25 +141,18 @@ router.get('/:recipeId', async (req, res, next) => {
  *  recipeIngredients: [
  *   {
  *    quantity: 1,
- *    unitName: null,
  *    unitId: null,
- *    unitAbbreviation: null,
  *    ingredientId: 15,
- *    ingredientName: "Whole Chicken",
- *    ingredientDescription: "A raw whole chicken that has been gutted and de-feathered"
  *   }
  *  ],
  *  recipeEquipments: [
  *   {
- *    equipmentDescription: "A heat source upon which pots, pans or other vessels can be placed",
  *    equipmentId: 5,
- *    equipmentName: "Burner"
  *   }
  *  ],
  *  recipeTags": [
  *   {
  *    tagId: 5,
- *    tagName: "Savory"
  *   }
  *  ]
  * }
@@ -201,12 +196,11 @@ router.get('/:recipeId', async (req, res, next) => {
  *  }
  * }
 */
-router.post('/:recipeId', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
-        const recipeId = req.params.recipeId; // TODO: handle bad input
-        const { ...recipe } = req.body; // TODO: handle bad input
+        const inputs = req.body; // TODO: handle bad input
 
-        res.send(await logicUpdateRecipe({ recipe, recipeId }));
+        res.send(await logicUpdateRecipe(inputs));
     } catch (err) {
         next(err);
     }
@@ -220,12 +214,11 @@ router.post('/:recipeId', async (req, res, next) => {
  * @return {object} 200 - Success response
  * @example request - example payload
 * {
- *  recipe: {
- *   difficultyName: "Medium",
- *   difficultyId: 2,
- *   recipeCookTime: 60,
+ *  recipe: { 
  *   recipeDescription: "A slightly spicy soup made with chicken, rice, and garbanzo beans",
+ *   recipeDifficultyId: 2,
  *   recipeDirections: "yada yada",
+ *   recipeDuration: 60,
  *   recipeName: "Bowl of the Wife of Kit Carson",
  *   recipePhotoUrl: "https://centerofthewest.org/wp-content/uploads/2023/03/PW343_recipe-chicken-soup.jpg",
  *   recipeYield: 6
@@ -233,25 +226,18 @@ router.post('/:recipeId', async (req, res, next) => {
  *  recipeIngredients: [
  *   {
  *    quantity: 1,
- *    unitName: null,
  *    unitId: null,
- *    unitAbbreviation: null,
- *    ingredientId: 15,
- *    ingredientName: "Whole Chicken",
- *    ingredientDescription: "A raw whole chicken that has been gutted and de-feathered"
+ *    ingredientId: 15
  *   }
  *  ],
  *  recipeEquipments: [
  *   {
- *    equipmentDescription: "A heat source upon which pots, pans or other vessels can be placed",
- *    equipmentId: 5,
- *    equipmentName: "Burner"
+ *    equipmentId: 5
  *   }
  *  ],
  *  recipeTags": [
  *   {
- *    tagId: 5,
- *    tagName: "Savory"
+ *    tagId: 5
  *   }
  *  ]
  * }
@@ -297,9 +283,9 @@ router.post('/:recipeId', async (req, res, next) => {
 */
 router.put('/', async (req, res, next) => {
     try {
-        const { ...recipe } = req.body;
+        const inputs = req.body; // TODO: handle bad input
 
-        res.send(await logicCreateRecipe({ recipe }));
+        res.send(await logicCreateRecipe( inputs ));
     } catch (err) {
         next(err);
     }

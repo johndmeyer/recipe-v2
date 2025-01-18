@@ -4,14 +4,14 @@ const logicRetrieveCookTimes = require('../logic/cookTime/logic-retrieve-cookTim
 
 const router = express.Router();
 /**
- * GET /cookTime
+ * GET /duration
  * @summary Retrieves a list of maximum cook times - used for drop down
- * @tags Cook Time
+ * @tags Duration
  * @return {object} 200 - Success response
  * @example response - 200 - example success response
  * {
  *  data: {
- *   cookTimes: [
+ *   durations: [
  *    {
  *	   cookTimeId: 30,
  *     cookTimeName: '30 minutes or less'
