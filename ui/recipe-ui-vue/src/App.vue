@@ -23,7 +23,7 @@
         },
 		data: function () {
             return {
-				domain: 'http://10.1.10.28:3000',
+				domain: 'http://localhost:3000',
 				filterCriteria: {
                     recipeCookTime: null,
 					difficultyId: null,

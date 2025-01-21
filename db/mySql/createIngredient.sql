@@ -1,5 +1,5 @@
 /*
-Name: createEquipment
+Name: createIngredient
 Useage: CALL createIngredient('Test Description','Test Name', 0)
 */
 

@@ -1,21 +1,24 @@
 /*
-Name: retrieveDifficulties
-Useage: CALL retrieveDifficulties
+Name: retrieveEquipments
+Useage: CALL retrieveEquipments
 */
 
 USE recipe;
 
-DROP PROCEDURE IF EXISTS retrieveDifficulties;
+DROP PROCEDURE IF EXISTS retrieveEquipments;
 
 DELIMITER //
 
-CREATE PROCEDURE retrieveDifficulties()
+CREATE PROCEDURE retrieveEquipments()
 BEGIN	
 	SELECT
-		d.difficultyId,
-		d.difficultyName
+		e.equipmentId,
+		e.equipmentName,
+        e.equipmentParentId,
+        e.equipmentDescription,
+        e.equipmentPhotoUrl
 	FROM
-		difficulty AS d;
+		equipment AS e;
 END //
 	
 DELIMITER ;
