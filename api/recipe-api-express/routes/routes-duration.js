@@ -1,6 +1,6 @@
 const express = require('express');
 
-const logicRetrieveCookTimes = require('../logic/cookTime/logic-retrieve-cookTimes');
+const logicRetrieveDurations = require('../logic/duration/logic-retrieve-durations');
 
 const router = express.Router();
 /**
@@ -13,8 +13,8 @@ const router = express.Router();
  *  data: {
  *   durations: [
  *    {
- *	   cookTimeId: 30,
- *     cookTimeName: '30 minutes or less'
+ *	   durationId: 30,
+ *     durationName: '30 minutes or less'
  *    }
  *   ]	
  *  }
@@ -22,7 +22,7 @@ const router = express.Router();
 */
 router.get('/', async (req, res, next) => {
     try {
-        res.send(await logicRetrieveCookTimes())
+        res.send(await logicRetrieveDurations())
     } catch (err) {
         next(err);
     }    

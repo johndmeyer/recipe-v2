@@ -404,7 +404,7 @@ DELIMITER ;
 
 /*
 Name: deleteRecipe
-Useage: CALL deleteRecipe(6)
+Useage: CALL deleteRecipe(2)
 */
 DROP PROCEDURE IF EXISTS deleteRecipe;
 DELIMITER //
@@ -462,7 +462,7 @@ DELIMITER ;
 
 /*
 Name: retrieveRecipes
-Useage: CALL retrieveRecipes(-60, 0, 0)
+Useage: CALL retrieveRecipes(0, 0, 0)
 */
 DROP PROCEDURE IF EXISTS retrieveRecipes;
 DELIMITER //
@@ -491,7 +491,7 @@ BEGIN
 				ON r.recipeId = rt.recipeId';
 
 	IF
-		recipeCookTime <> 0  OR
+		recipeDuration <> 0  OR
         recipeDifficultyId <> 0 OR
 		recipeTagId <> 0 
 	THEN
@@ -502,17 +502,17 @@ BEGIN
 	END IF;
     
     IF 
-		recipeCookTime <> 0 
+		recipeDuration <> 0 
     THEN
  		SET @query = CONCAT(
 			@query,
-            ' r.recipeCookTime >= ',
-            CAST(recipeCookTime AS CHAR(3))
+            ' r.duration >= ',
+            CAST(recipeDuration AS CHAR(3))
 		);
  	END IF;
     
     IF
-		recipeCookTime <> 0 AND
+		recipeDuration <> 0 AND
         recipeDifficultyId <> 0
 	THEN
 		SET @query = CONCAT(
@@ -532,7 +532,7 @@ BEGIN
 	END IF;
     
     IF 
-		(recipeCookTime <> 0 OR recipeDifficultyId <> 0) 
+		(recipeDuration <> 0 OR recipeDifficultyId <> 0) 
         AND 
         recipeTagId <> 0
 	THEN
@@ -633,7 +633,7 @@ DELIMITER ;
 
 /*
 Name: deleteTag
-Useage: CALL deleteTag(11)
+Useage: CALL deleteTag(14)
 */
 DROP PROCEDURE IF EXISTS deleteTag;
 DELIMITER //

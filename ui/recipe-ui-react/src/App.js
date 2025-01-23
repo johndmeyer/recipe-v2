@@ -9,10 +9,12 @@ import amazonEcsLogo from './amazon-ecs-logo.png';
 import awsLogo from './aws-fargate-logo.png';
 
 import DropDown from './components/DropDown.js';
+import DropDownTree from './components/DropDownTree.js';
+import DropDownTree2 from './components/DropDownTree2.js';
 import ResultsTable from './components/ResultsTable.js';
 
-const domain = 'http://35.89.111.188:3000';
- const filters = null;
+const domain = 'http://34.223.67.224:3000';
+const filters = null;
 
 function App() {
 	return (
@@ -37,10 +39,23 @@ function App() {
 			<br />
 			<div className='row controls'>
 				<div className='col-sm-4'>
-					<DropDown />
+					<DropDownTree
+						domain={domain}
+						path='tag'
+					/>
 				</div>
-				<div className='col-sm-4'></div>
-				<div className='col-sm-4'></div>
+				<div className='col-sm-4'>
+					<DropDown 
+						domain={domain}
+						path='difficulty'
+					/>
+				</div>
+				<div className='col-sm-4'>
+					<DropDown 
+						domain={domain}
+						path='duration'
+					/>
+				</div>
 			</div>
 			<br />
 			<div className='row results'>

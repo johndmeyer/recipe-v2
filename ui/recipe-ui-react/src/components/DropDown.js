@@ -1,46 +1,29 @@
-//import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { DropDownList } from '@progress/kendo-react-dropdowns';
 
-export default function DropDown() {
-
-    const path = 'difficulty';
+export default function DropDown({ domain, path }) {
     const itemId = `${path}Id`;
-    const itemName = `${path}Name`;
-    
+    const itemName = `${path}Name`;    
 
     const defaultItem = {};
     defaultItem[itemId] = null;
     defaultItem[itemName] = `Select ${path}...`
 
-    const dataItems = [
-        {
-            "difficultyId": 1,
-            "difficultyName": "Easy"
-          },
-          {
-            "difficultyId": 2,
-            "difficultyName": "Medium"
-          },
-          {
-            "difficultyId": 3,
-            "difficultyName": "Difficult"
-          }
-    ];
-    // const [recipes, setData] = useState(null);
+    const [dataItems, setData] = useState([]);
     
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await fetch(`${domain}/recipe`);
-    //             const json = await response.json();
-    //             setData(json.data.recipe);
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //         }
-    //     };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${domain}/${path}`);
+                const json = await response.json();
+                setData(json.data[`${path}s`]);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
     
-    //     fetchData();
-    // }, []);
+        fetchData();
+    }, []);
 
     const handleChange = (event) => {
         alert(`Selected item text: ${event.target.value[itemName]}, value: ${event.target.value[itemId]}`);

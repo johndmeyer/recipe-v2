@@ -3,8 +3,8 @@
 // https://github.com/mysqljs/mysql
 const mysql2 = require('mysql2');
 
-const getConnection =  () => {
-    const connection = mysql2.createConnection({
+const getConnection = async () => {
+    const connection = await mysql2.createConnection({
         host: 'recipe-db-instance.c9q6wk4kci32.us-west-2.rds.amazonaws.com',
         port: 3306,
         user: 'recipe_db_admin',
@@ -49,9 +49,11 @@ const callProc = async (params) => {
 
     try
     {
-        const connection =  getConnection();
+        const connection = await getConnection();
 
         const [results] = await connection.promise().query(query);
+
+        await connection.end();
 
         dataSets = results;
     }

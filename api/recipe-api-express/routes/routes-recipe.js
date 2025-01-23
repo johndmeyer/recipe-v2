@@ -53,11 +53,15 @@ router.delete('/:recipeId', async (req, res, next) => {
 */
 router.get('/', async (req, res, next) => {
     try {
-        const cookTime = Number(req.query.cookTime) ?? 0;
-        const difficultyId = Number(req.query.difficultyId) ?? 0;
-        const tagId = Number(req.query.tagId) ?? 0; // TODO: handle bad input
+        const duration = req.query?.duration ?? 0;
+        const difficultyId = req.query?.difficultyId ?? 0;
+        const tagId = req.query?.tagId ?? 0; // TODO: handle bad input
 
-        res.send(await logicRetrieveRecipes({ cookTime, difficultyId, tagId }))
+        res.send(await logicRetrieveRecipes({ 
+            duration: Number(duration), 
+            difficultyId: Number(difficultyId), 
+            tagId: Number(tagId) 
+        }));
     } catch (err) {
         next(err);
     }    

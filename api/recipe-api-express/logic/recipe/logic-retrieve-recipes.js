@@ -6,9 +6,9 @@ const logicRetrieveRecipe = async (inputs) => {
     const params = { 
         procName: 'retrieveRecipes', 
         procArgs: [
-            { name: 'recipeCookTime', value: inputs.cookTime },
             { name: 'recipeDifficultyId', value: inputs.difficultyId },
-            { name: 'recipeTagId', value: inputs.tagId },
+            { name: 'recipeDuration', value: inputs.duration },            
+            { name: 'recipeTagId', value: inputs.tagId }
         ]  
     };
 

@@ -10,7 +10,7 @@ const logicRetrieveTags = async (inputs) => {
 
     const jsonTree = buildJsonTree(recordsets[0], 'tag')
 
-    return { data: { tag: jsonTree } };
+    return { data: { tags: jsonTree } };
 }
 
 module.exports = logicRetrieveTags;
