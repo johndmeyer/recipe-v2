@@ -1,0 +1,16 @@
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\bin\Release\net8.0\Data.deps.json
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\bin\Release\net8.0\Data.dll
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\bin\Release\net8.0\Data.pdb
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\bin\Release\net8.0\DataModels.dll
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\bin\Release\net8.0\DataModels.pdb
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\obj\Release\net8.0\Data.csproj.AssemblyReference.cache
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\obj\Release\net8.0\Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\obj\Release\net8.0\Data.AssemblyInfoInputs.cache
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\obj\Release\net8.0\Data.AssemblyInfo.cs
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\obj\Release\net8.0\Data.csproj.CoreCompileInputs.cache
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\obj\Release\net8.0\Data.sourcelink.json
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\obj\Release\net8.0\Data.csproj.Up2Date
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\obj\Release\net8.0\Data.dll
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\obj\Release\net8.0\refint\Data.dll
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\obj\Release\net8.0\Data.pdb
+C:\_projects\recipe-v2\api\recipe-api-dotNetCore-webApi\RecipeApi\Data\obj\Release\net8.0\ref\Data.dll

@@ -19,10 +19,11 @@ namespace RecipeApi.Controllers
             _logger = logger;
 
             _logicRecipe = logicRecipe;
-        }
+        } // end controller
 
-        [HttpGet(Name = "RetrieveRecipes")]
-        public IEnumerable<DataModelsRecipe.RecipeBase> Get()
+        [HttpGet]
+        [Route("/")]
+        public IEnumerable<DataModelsRecipe.RecipeBase> RetrieveRecipes()
         {
             try
             {
@@ -33,6 +34,21 @@ namespace RecipeApi.Controllers
                 // TODO: Configure exception logging
                 return null;
             }
-        }
-    }
-}
+        } // end
+
+        [HttpGet]
+        [Route("/{recipeId}")]
+        public DataModelsRecipe.RecipeFull RetrieveRecipe(int recipeId)
+        {
+            try
+            {
+                return new DataModelsRecipe.RecipeFull();
+            }
+            catch (Exception)
+            {
+                // TODO: Configure exception logging
+                return null;
+            }
+        } // end
+    } // end class
+} // end namespace
