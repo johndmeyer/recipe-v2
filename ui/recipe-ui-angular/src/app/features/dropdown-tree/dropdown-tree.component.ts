@@ -3,58 +3,58 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-    selector: 'dropdown',
+    selector: 'dropdowntree',
     standalone: true,
     imports: [DropDownsModule],
     template: `
-        <div class="dropdown">
-            <kendo-dropdownlist 
-                defaultItem="Select {{dataType}}"
-                [data]="dropdownData"
-                (selectionChange)="selectionChange($event)"
+        <div class="dropdowntree">
+            <kendo-dropdowntree
+                kendoDropDownTreeExpandable
+                [placeholder]="placeholderField"
+                [childrenField]="'items'"
+                [kendoDropDownTreeHierarchyBinding]="treeData"
+                [textField]="textField"
+                [valueField]="valueField"
+                (valueChange)="valueChange($event)"               
             />
         </div>
     `
-    //templateUrl: './app.component.html',
-    //styleUrl: './app.component.scss'
 })
 
-export class DropDown implements OnInit {
+export class DropDownTree implements OnInit {
     // Properties: private, public, input, output
-    public dropdownData: Array<string> = [
-        'stuff',
-        'things',
-        'items',
-        'cosas',
-        'chochkis'
-    ];
-
-    @Input() public dataType: string = '';
-    // @Input() public domain: string;
-    // @Input() public path: string;
+    public treeData: Array<any> = [];
+    
+    @Input() public domain: string = '';
+    @Input() public path: string = '';
     @Output() public dropDownSelect = new EventEmitter<any>();
 
     // Constructor
-    constructor ( 
-        private http: HttpClient,
-        //private dataType: string,
-        // private _domain: string,
-        // private _path: string
-    ) {
-        //this.dataType = this.dataType;
-        // this.domain = this._domain;
-        // this.path = this._path;
-    }
+    constructor (private http: HttpClient) { }
     
     // Lifecycle hooks
     ngOnInit(): void {
-        // this.http.get<any>('http://localhost:5000/recipe/1').subscribe(data => {
-        //     this.gridData[0] = data.data.recipe;
-        // })        
+        this.http.get<any>(`http://${this.domain}/${this.path}`).subscribe(data => {
+            this.treeData = data.data[`${this.path}s`];
+        })        
     }
 
     // Methods
-    public selectionChange(value: any): void {
-        this.dropDownSelect.emit(value);
+
+
+    get placeholderField() {
+        return `Select ${this.path}...`;
+    }
+
+    get textField() {
+        return `${this.path}Name`;
+    }
+
+    get valueField() {
+        return `${this.path}Id`;
+    }
+
+    public valueChange(value: any): void {
+        this.dropDownSelect.emit(`Item Name: ${value[this.textField]}, Item Id: ${value[this.valueField]}`);
     }
 }

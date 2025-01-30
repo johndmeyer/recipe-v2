@@ -1,4 +1,12 @@
 import './App.css';
+import { useState } from 'react';
+import { Button } from '@progress/kendo-react-buttons';
+import { Window } from '@progress/kendo-react-dialogs';
+
+import DropDown from './components/DropDown.js';
+import DropDownTree from './components/DropDownTree.js';
+import ResultsTable from './components/ResultsTable.js';
+
 import reactLogo from './react-logo.png';
 import webpackLogo from './webpack-logo.png';
 import bootstrapLogo from './bootstrap-logo.png';
@@ -8,15 +16,28 @@ import dockerLogo from './docker-logo.png';
 import amazonEcsLogo from './amazon-ecs-logo.png';
 import awsLogo from './aws-fargate-logo.png';
 
-import DropDown from './components/DropDown.js';
-import DropDownTree from './components/DropDownTree.js';
-import DropDownTree2 from './components/DropDownTree2.js';
-import ResultsTable from './components/ResultsTable.js';
-
 const domain = 'http://34.223.67.224:3000';
 const filters = null;
 
 function App() {
+	const [newEditModal, setNewEditModal] = useState(false);
+	const [editEquipmentsModal, setEditEquipmentsModal] = useState(false);
+	const [editIngredientsModal, setEditIngredientsModal] = useState(false);
+	const [editTagsModal, setEditTagsModal] = useState(false);
+
+	const toggleNewEditModal = () => {
+		setNewEditModal(!newEditModal);
+	}
+	const toggleEditEquipmentsModal = () => {
+		setEditEquipmentsModal(!editEquipmentsModal);
+	}
+	const toggleEditIngredientsModal = () => {
+		setEditIngredientsModal(!editIngredientsModal);
+	}
+	const toggleEditTagsModal = () => {
+		setEditTagsModal(!editTagsModal);
+	}
+
 	return (
 		<div className='App container'>
 			<div className='row'>
@@ -66,13 +87,76 @@ function App() {
 			</div>
 			<br />
 			<div className='row edit'>
-				<div className='col-sm-3'></div>
-				<div className='col-sm-3'></div>
-				<div className='col-sm-3'></div>
-				<div className='col-sm-3'></div>
+				<div className='col-sm-3'>
+					<Button
+						onClick={toggleNewEditModal}
+					>
+						New Recipe
+					</Button>
+				</div>
+				<div className='col-sm-3'>
+					<Button
+						onClick={toggleEditEquipmentsModal}
+					>
+						Edit Equipment
+					</Button>
+				</div>
+				<div className='col-sm-3'>
+					<Button
+						onClick={toggleEditIngredientsModal}
+					>
+						Edit Ingredients
+					</Button>
+				</div>
+				<div className='col-sm-3'>
+					<Button
+						onClick={toggleEditTagsModal}
+					>
+						Edit Tags
+					</Button>
+				</div>
 			</div>
 			<div className='row modals'>
-
+				{
+					newEditModal 
+					&& 
+					<Window
+						title='New/Edit Recipe'
+						onClose={toggleNewEditModal}
+						initialHeight={450}
+						initialWidth={650}
+					/>
+				}
+				{
+					editEquipmentsModal
+					&& 
+					<Window
+						title='Edit Equipment'
+						onClose={toggleEditEquipmentsModal}
+						initialHeight={450}
+						initialWidth={650}
+					/>
+				}
+				{
+					editIngredientsModal 
+					&& 
+					<Window
+						title='Edit Ingredients'
+						onClose={toggleEditIngredientsModal}
+						initialHeight={450}
+						initialWidth={650}
+					/>
+				}
+				{
+					editTagsModal 
+					&& 
+					<Window
+						title='Edit Tags'
+						onClose={toggleEditTagsModal}
+						initialHeight={450}
+						initialWidth={650}
+					/>
+				}
 			</div>			
 		</div>
 	);

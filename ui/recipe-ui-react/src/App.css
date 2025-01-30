@@ -32,6 +32,12 @@
       max-width: 125px;
     }
   }
+
+  .edit {
+    .k-button {
+      width: 200px;
+    }
+  }
 }
 
 .App-logo {

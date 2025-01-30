@@ -1,4 +1,4 @@
-import { forceUpdate, useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { mapTree, extendDataItem } from '@progress/kendo-react-common';
 import { filterBy } from '@progress/kendo-react-data-tools';
 import { DropDownTree as KDropDownTree } from '@progress/kendo-react-dropdowns';
@@ -9,7 +9,6 @@ import { DropDownTree as KDropDownTree } from '@progress/kendo-react-dropdowns';
 // for an example of how to this - no luck.
 
 export default function DropDownTree({ domain, path }) {
-//const DropDownTree = ({ data, path }) => {
     const dataItemKey = `${path}Id`;
     const expandField = 'expanded';
     const selectField = 'selected';
@@ -24,10 +23,8 @@ export default function DropDownTree({ domain, path }) {
     };
 
     const [value, setValue] = useState({});
-
-    const [data, setData] = useState([value]);
-
-    const [expanded, setExpanded] = useState([data[0][dataItemKey]]);
+    const [treeData, setTreeData] = useState([{ tagId: 1, tagName: 'initial' }, { tagId: 2, tagname: 'data' }]);
+    const [expanded, setExpanded] = useState([treeData[0][dataItemKey]]);
     
     const expandedState = (item, dataItemKey, expanded) => {
         const nextExpanded = expanded.slice();
@@ -56,11 +53,6 @@ export default function DropDownTree({ domain, path }) {
         });
     };
 
-    const treeData = useMemo(() => processTreeData(data, {
-        expanded,
-        value
-    }, fields), [expanded, value]);
-
     const onChange = (e) => {
         if (e.value) {
             alert(`Selected item text: ${e.value[textField]}, value: ${e.value[dataItemKey]}`);
@@ -69,19 +61,18 @@ export default function DropDownTree({ domain, path }) {
         setValue(e.value);
     }
 
-    const onExpandChange = useCallback(
-        (e) => setExpanded(expandedState(e.item, dataItemKey, expanded)),
-        [expanded]
-    );
+    const onExpandChange = (e) => setExpanded(expandedState(e.item, dataItemKey, [expanded]));
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch(`${domain}/${path}`);
                 const json = await response.json();
-                const pathData = json.data[`${path}s`];
-                setData(pathData);
-                //forceUpdate();
+                const pathData = json.data[`${path}s`];                
+                const treeData = processTreeData(pathData, { expanded, value }, fields);
+
+                setExpanded(treeData[0][dataItemKey])
+                setTreeData(treeData);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }

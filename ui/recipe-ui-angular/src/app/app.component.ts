@@ -1,13 +1,18 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { DropDown } from './features/dropdown/dropdown.component';
+import { DropDownTree } from './features/dropdown-tree/dropdown-tree.component';
 import { Results } from './features/results/results.component';
 
 @Component({
 	selector: 'app-root',
 	imports: [
 		DropDown,
+		DropDownTree,
+		NgbModule,
 		Results, 
 		RouterOutlet
 	],
@@ -16,7 +21,7 @@ import { Results } from './features/results/results.component';
 })
 
 export class AppComponent {
-	public domain: string = 'localhost:5000'
+	public domain: string = '34.223.67.224:3000'
 	angularLogoSrc = 'angular-logo.png';
 	title = 'recipe-ui-angular';
 
