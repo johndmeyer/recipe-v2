@@ -1,20 +1,20 @@
 'use strict';
 
-const execProc = require('../../data/mssql-utils');
+const getData = require('../../data/data-utils');
 
 const logicUpdateEquipment = async (inputs) => {
     const params = { 
         procName: 'updateEquipment', 
         procArgs: [
-            { name: 'equipmentDescription', type: 'string', value: inputs.equpmentDescription },
-            { name: 'equipmentParentId', value: inputs.equipmentParentId },
+            { name: 'equipmentDescription', type: 'string', value: inputs.equipmentDescription },
+            { name: 'equipmentId', value: inputs.equipmentId },
             { name: 'equipmentName', type: 'string', value: inputs.equipmentName }            
         ]
     };
 
-    const recordsets = await execProc(params);
+    const recordsets = await getData(params);
 
-    return { data: { tagId: recordsets[0][0].equipmentId } };
+    return { data: { equipments: recordsets[0]} };
 }
 
 module.exports = logicUpdateEquipment;

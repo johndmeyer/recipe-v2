@@ -1,32 +1,46 @@
 'use strict';
 
-const execProc = require('../../data/mssql-utils');
+const getData = require('../../data/data-utils');
 // NOTE: It would be better to do this all in SQL as a transaction in case any one of these database saves fail.
 // I'm using SQL Server 2008 here which does not support JSON parsing, however when I port the database to MySQL
 // I should be able to do this more elegantly
 
+// Ported to MySQL - I'll come back to this - want to get everything working first
+
 const logicCreateRecipe = async (inputs) => {
-    const recipe = inputs.recipe.recipe;
-    const equipments = inputs.recipe.equipments;
-    const ingredients = inputs.recipe.ingredients;
-    const tags = inputs.recipe.tags;
+    const recipe = inputs.recipe;
+    const equipments = inputs.recipeEquipments;
+    const ingredients = inputs.recipeIngredients;
+    const tags = inputs.recipeTags;
 
     const recipeParams = { 
         procName: 'createRecipe', 
         procArgs: [
-            { name: 'difficultyId', value: recipe.recipeDifficulty },	
-            { name: 'recipeCookTime', value: recipe.recipeCookTime },
             { name: 'recipeDescription', type: 'string', value: recipe.recipeDescription },
+            { name: 'recipeDifficultyId', value: recipe.recipeDifficultyId },
             { name: 'recipeDirections', type: 'string', value: recipe.recipeDirections },
+            { name: 'recipeDuration', value: recipe.recipeDuration },
             { name: 'recipeName', type: 'string', value: recipe.recipeName },
             { name: 'recipePhotoUrl', type: 'string', value: recipe.recipePhotoUrl },
             { name: 'recipeYield', type: 'string', value: recipe.recipeYield },
         ]
     };
 
-    const recordsets = await execProc(recipeParams);
+    const recordsets = await getData(recipeParams);
 
     const recipeId = recordsets[0][0].recipeId;
+
+    for (const equipment of equipments) {
+        const equipmentParams = {
+            procName: 'createRecipeEquipment',
+            procArgs: [
+                { name: 'recipeId', value: recipeId },
+                { name: 'equipmentId', value: equipment.equipmentId}
+            ]
+        }
+
+        await getData(equipmentParams);
+    }
 
     for (const ingredient of ingredients) {
         const ingredientParams = {
@@ -39,19 +53,7 @@ const logicCreateRecipe = async (inputs) => {
             ]
         }
 
-        await execProc(ingredientParams);
-    }
-
-    for (const equipment of equipments) {
-        const equipmentParams = {
-            procName: 'createRecipeEquipment',
-            procArgs: [
-                { name: 'recipeId', value: recipeId },
-                { name: 'equipmentId', value: equipment.equipmentId}
-            ]
-        }
-
-        await execProc(equipmentParams);
+        await getData(ingredientParams);
     }
 
     for (const tag of tags) {
@@ -63,7 +65,7 @@ const logicCreateRecipe = async (inputs) => {
             ]
         }
 
-        await execProc(tagParams);
+        await getData(tagParams);
     }
 
     return { data: { recipeId } };

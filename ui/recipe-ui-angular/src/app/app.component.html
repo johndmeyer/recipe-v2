@@ -32,40 +32,36 @@
 	>			
 		<div
 			class="row text-start"
-		>
-			<div 
-				class="row-insert"
+		>				
+			<div
+				class="col-sm-4"
 			>
-				<!--	
-				<div
-					class="col-sm-4"
-				>
-					<drop-down-tree
-						:style="{ width: '300px', margin: '0 5px 10px 5px' }"
-						:domain="domain"
-						:path="'tag'"
-						@itemSelected="handleItemSelected"
-					/>
-				</div>
-				-->			
-				<div
-					class="col-sm-4 no-pad-left"
-				>					
-					<dropdown
-						[domain]="domain"
-						[path]="'difficulty'"						
-						(dropDownSelect)="handleDropDownSelect($event)"
-					/>					
-				</div> 
-				<div
-					class="col-sm-4 no-pad-left"
-				>
-					<dropdown
-						[domain]="domain"
-						[path]="'duration'"						
-						(dropDownSelect)="handleDropDownSelect($event)"
-					/>
-				</div>
+				<!---->	
+				<dropdowntree
+					[domain]="domain"
+					[path]="'tag'"
+					(dropDownSelect)="handleDropDownSelect($event)"
+				/>
+				
+			</div>
+					
+			<div
+				class="col-sm-4 no-pad-left"
+			>					
+				<dropdown
+					[domain]="domain"
+					[path]="'difficulty'"						
+					(dropDownSelect)="handleDropDownSelect($event)"
+				/>					
+			</div> 
+			<div
+				class="col-sm-4 no-pad-left"
+			>
+				<dropdown
+					[domain]="domain"
+					[path]="'duration'"						
+					(dropDownSelect)="handleDropDownSelect($event)"
+				/>
 			</div>
 		</div>
 	</div>
@@ -73,7 +69,9 @@
 	<div
 		class="results"
 	>
-		<results></results>
+		<results
+			[domain]="domain"
+		/>
 		<!-- <results-table
 			:domain="domain"
 			:filterCriteria="filterCriteria"

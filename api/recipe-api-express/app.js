@@ -5,8 +5,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var cookTimeRouter = require('./routes/routes-cookTime');
 var difficultyRouter = require('./routes/routes-difficulty');
+var durationRouter = require('./routes/routes-duration');
 var equipmentRouter = require('./routes/routes-equipment');
 var ingredientRouter = require('./routes/routes-ingredient');
 var recipeRouter = require('./routes/routes-recipe');
@@ -43,8 +43,9 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/cookTime', cookTimeRouter);
+
 app.use('/difficulty', difficultyRouter);
+app.use('/duration', durationRouter);
 app.use('/equipment', equipmentRouter);
 app.use('/ingredient', ingredientRouter);
 app.use('/recipe', recipeRouter);

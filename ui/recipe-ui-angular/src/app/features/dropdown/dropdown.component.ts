@@ -56,6 +56,6 @@ export class DropDown implements OnInit {
     }
 
     public selectionChange(value: any): void {
-        this.dropDownSelect.emit(value);
+        this.dropDownSelect.emit(JSON.stringify(value));
     }
 }

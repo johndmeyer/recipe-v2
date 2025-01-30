@@ -1,5 +1,43 @@
 .App {
   text-align: center;
+  max-width: 960px;
+
+  .built-with {
+    display: inline;
+
+    .react-logo {
+      max-width: 125px;
+    }
+    .webpack-logo {
+      max-width: 125px;
+    }
+    .bootstrap-logo {
+      max-width: 125px;
+    }
+    .kendo-ui-logo {
+      max-width: 125px;
+    }
+  }
+
+  .hosted-on {
+    display: inline;
+
+    .docker-logo {
+      max-width: 125px;
+    }
+    .amazon-ecs-logo {
+      max-width: 125px;
+    }
+    .aws-logo {
+      max-width: 125px;
+    }
+  }
+
+  .edit {
+    .k-button {
+      width: 200px;
+    }
+  }
 }
 
 .App-logo {

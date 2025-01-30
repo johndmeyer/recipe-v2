@@ -3,13 +3,14 @@
 const express = require('express');
 
 const logicCreateIngredient = require('../logic/ingredient/logic-create-ingredient');
+const logicDeleteIngredient = require('../logic/ingredient/logic-delete-ingredient');
 const logicRetrieveIngredients = require('../logic/ingredient/logic-retrieve-ingredients');
 const logicUpdateIngredient = require('../logic/ingredient/logic-update-ingredient');
 
 const router = express.Router();
 
 /**
- * DELETE /ingredient/{id}
+ * DELETE /ingredient/{ingredientId}
  * @summary Deletes an ingredient table entry and all entries in the recipe-ingredient table for a given ingredientId
  * @tags Ingredient
  * @param {integer} ingredientId.path.required
@@ -17,32 +18,45 @@ const router = express.Router();
 */
 router.delete('/:ingredientId', async (req, res, next) => {
     try {
-        res.send('Sorry not yet implemented')
+        const ingredientId = req.params.ingredientId;
+
+        res.send(await logicDeleteIngredient({ ingredientId }))
     } catch (err) {
         next(err);
     } 
 });
 
 /**
- * GET /ingredient/{ingredientId}
- * @summary Retrieves a hierarchical list of equipment - used for drop down
- * @tags Equipment
- * @param {integer} ingredientId.path - IngredientId brings back a single ingredient if passed, if ommited returns a hierarchical list of  all equipment
+ * GET /ingredient
+ * @summary Retrieves a hierarchical list of ingredients - used for drop down
+ * @tags Ingredient
  * @return {object} 200 - Success response
  * @example response - 200 - example success response
  * {
- *   data: {
- *     equipment: [
- *       {
- *         equipmentId: 30,
- *         equipmentName: '30 minutes or less',
- *         equipmentParentId: 5
- *       }
+ *  data: {
+ *   ingredients: [
+ *    {
+ *     ingredientId: 1,
+ *     ingredientName: 'Basic',
+ *     ingredientParentId: null,
+ *     ingredientDescription: "A type reserved for the most basic of ingredients (e.g. Water)",
+ *     ingredientPhotoUrl: null,
+ *     items: [
+ *      {
+ *       ingredientId: 7,
+ *       ingredientName: 'Water',
+ *       ingredientParentId: 1,
+ *       ingredientDescription: "Perhaps the most basic ingredient",
+ *       ingredientPhotoUrl: null,
+ *       items: []
+ *      }
  *     ]
- *   }  
+ *    }
+ *   ]
+ *  }  
  * }
 */
-router.get('/:ingredientId', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
         res.send(await logicRetrieveIngredients())
     } catch (err) {
@@ -50,11 +64,37 @@ router.get('/:ingredientId', async (req, res, next) => {
     }    
 });
 
-router.post('/:ingredientId/:ingredientName', async(req, res, next) => {
+/**
+ * POST /ingredient
+ * @summary Changes the name and/or description of an ingredient table entry
+ * @tags Ingredient
+ * @param {object} request.body.required
+ * @return {object} 200 - Success response
+ * @example request - example payload
+ * {
+ *   ingredientId: 5,
+ *   ingredientName: 'Ingredient name here'
+ *   ingredientDescription: 'Ingredient description here'   
+ * }
+ * @example response - 200 - example success response
+ * {
+ *   data: {
+ *     ingredient: [
+ *       {
+ *         ingredientId: 30,
+ *         ingredientName: 'Chicken',
+ *         ingredientParentId: 5,
+ *         ingredientDescription: 'Quack, no, wait, Cock a doodle do, yeah that's it'
+ *       }
+ *     ]
+ *   } 
+ * }
+*/
+router.post('/', async(req, res, next) => {
     try {
         const ingredientDescription = req.body.ingredientDescription; // TODO: handle bad input
-        const ingredientId = req.params.ingredientId; // TODO: handle bad input
-        const ingredientName = req.params.ingredientName; // TODO: handle bad input
+        const ingredientId = req.body.ingredientId; // TODO: handle bad input
+        const ingredientName = req.body.ingredientName; // TODO: handle bad input
         
         res.send(await logicUpdateIngredient({ ingredientDescription, ingredientId, ingredientName }));
     } catch (err) {
@@ -62,24 +102,39 @@ router.post('/:ingredientId/:ingredientName', async(req, res, next) => {
     }
 });
 
-router.put('/:ingredientName', async(req, res, next) => {
+/**
+ * PUT /ingredient
+ * @summary Creates a new ingredient table entry
+ * @tags Ingredient
+ * @param {object} request.body.required
+ * @return {object} 200 - Success response
+ * @example request - example payload
+ * {
+ *   ingredientParentId: 5,
+ *   ingredientName: 'Ingredient name here'
+ *   ingredientDescription: 'Ingredient description here'      
+ * }
+ * @example response - 200 - example success response
+ * {
+ *   data: {
+ *     ingredients: [
+ *       {
+ *         ingredientId: 30,
+ *         ingredientName: '30 minutes or less',
+ *         ingredientParentId: 5,
+ *         ingredientDescription: 'Quack, no, wait, Cock a doodle do, yeah that's it'
+ *       }
+ *     ]
+ *   } 
+ * }
+*/
+router.put('/', async(req, res, next) => {
     try {
         const ingredientDescription = req.body.ingredientDescription; // TODO: handle bad input
-        const ingredientName = req.params.ingredientName; // TODO: handle bad input
+        const ingredientName = req.body.ingredientName; // TODO: handle bad input
+        const ingredientParentId = req.body.equipmentParentId ?? 0; // TODO: handle bad input
 
-        res.send(await logicCreateIngredient({ ingredientDescription, ingredientName }))
-    } catch (err) {
-        next(err);
-    }
-});
-
-router.put('/:ingredientParentId/:ingredientName', async(req, res, next) => {
-    try {
-        const ingredientDescription = req.body.ingredientDescription; // TODO: handle bad input
-        const ingredientParentId = req.params.ingredientParentId; // TODO: handle bad input
-        const ingredientName = req.params.ingredientName; // TODO: handle bad input
-
-        res.send(await logicCreateIngredient({ ingredientDescription, ingredientParentId, ingredientName }))
+        res.send(await logicCreateIngredient({ ingredientDescription, ingredientName, ingredientParentId }))
     } catch (err) {
         next(err);
     }
