@@ -1,1 +1,10 @@
+.idea
 .vs/
+Api/bin/
+Api/obj/
+Data/bin/
+Data/obj/
+DataModels/bin/
+DataModels/obj/
+Logic/bin/
+Logic/obj/
