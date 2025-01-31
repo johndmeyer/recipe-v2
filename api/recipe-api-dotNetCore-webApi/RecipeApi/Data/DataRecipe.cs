@@ -13,7 +13,7 @@ namespace Data
     public class DapperDbConnection : IDapperDbConnection
     {
         // TODO: Store the connection string somewhere more secure
-        private string connString = "Server=tcp:recipe-db-server.database.windows.net,1433;Initial Catalog=recipe_db;Persist Security Info=False;User ID=recipe-db-admin;Password=AkcvW4aZ28hY843#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=90;";
+        private string connString = "Server=tcp:recipe-db-server.database.windows.net,1433;Initial Catalog=recipe_db;Persist Security Info=False;User ID=recipe-db-admin;Password=<password>;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=90;";
 
         public DapperDbConnection() { }
 
