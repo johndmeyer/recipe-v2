@@ -27,9 +27,10 @@ namespace RecipeApi.Controllers
         {
             try
             {
-                return _logicRecipe.RetrieveRecipes(null, null, null).ToList();
+                var result = _logicRecipe.RetrieveRecipes(null, null, null).ToList();
+                return result;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 // TODO: Configure exception logging
                 return null;

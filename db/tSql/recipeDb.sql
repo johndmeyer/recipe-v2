@@ -510,7 +510,7 @@ GO
 CREATE PROCEDURE retrieveRecipes(
 	@recipeTagId INT = NULL,
 	@recipeDifficultyId INT = NULL,
-	@recipeCookTime INT = NULL
+	@recipeDuration INT = NULL
 )
 AS 
 DECLARE @query NVARCHAR(512)
@@ -520,18 +520,18 @@ SET @query = '
 		r.recipeName,
 		r.recipeDescription,
 		r.recipePhotoUrl,
-		r.recipeCookTime,
+		r.recipeDuration,
 		r.recipeYield,
 		d.difficultyName
 	FROM
-		recipe.dbo.recipe AS r
+		recipe AS r
 		LEFT OUTER JOIN
-		recipe.dbo.difficulty AS d
+		difficulty AS d
 			ON r.difficultyId = d.difficultyId
 		LEFT OUTER JOIN
-		recipe.dbo.recipe_tag rt
+		recipe_tag rt
 			ON r.recipeId = rt.recipeId'			
-IF @recipeTagId <> '' OR @recipeDifficultyId <> '' OR @recipeCookTime <> ''
+IF @recipeTagId <> '' OR @recipeDifficultyId <> '' OR @recipeDuration <> ''
 	SET @query = @query + '
 	WHERE'	
 IF @recipeTagId <> ''
@@ -543,12 +543,12 @@ IF @recipeTagId <> '' AND @recipeDifficultyId <> ''
 IF @recipeDifficultyId <> ''
 	SET @query = @query + '
 		d.difficultyId >= ' + CAST(@recipeDifficultyId AS VARCHAR(1))		
-IF (@recipeTagId <> '' OR @recipeDifficultyId <> '') AND @recipeCookTime <> ''
+IF (@recipeTagId <> '' OR @recipeDifficultyId <> '') AND @recipeDuration <> ''
 	SET @query = @query + '
 		AND'		
-IF @recipeCookTime <> ''
+IF @recipeDuration <> ''
 	SET @query = @query + '
-		r.recipeCookTime >= ' + CAST(@recipeCookTime AS VARCHAR(3))
+		r.recipeDuration >= ' + CAST(@recipeDuration AS VARCHAR(3))
 EXEC SP_EXECUTESQL @query 
 GO
 
