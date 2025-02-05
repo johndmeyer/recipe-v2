@@ -2,54 +2,71 @@ using Microsoft.AspNetCore.Mvc;
 using DataModels;
 using Logic;
 
-namespace RecipeApi.Controllers
+namespace Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
     public class RecipeController : ControllerBase
     {
-        private readonly ILogger<RecipeController> _logger;
-
         private readonly ILogicRecipe _logicRecipe;
 
-        public RecipeController(
-            ILogger<RecipeController> logger,
-            ILogicRecipe logicRecipe)
+        public RecipeController(ILogicRecipe logicRecipe)
         {
-            _logger = logger;
-
             _logicRecipe = logicRecipe;
-        } // end controller
-
-        [HttpGet]
-        [Route("/")]
-        public IEnumerable<DataModelsRecipe.RecipeBase> RetrieveRecipes()
+        } // end constructor
+        
+        [HttpPut]
+        [Route("recipe")]
+        public ActionResult<ResponseObject<ResponseObjectRecipeFull>> CreateRecipe(RecipeFull recipe)
         {
-            try
-            {
-                var result = _logicRecipe.RetrieveRecipes(null, null, null).ToList();
-                return result;
-            }
-            catch (Exception e)
-            {
-                // TODO: Configure exception logging
-                return null;
-            }
+            // TODO: input validation
+            
+            var response = _logicRecipe.CreateRecipe(recipe);
+            
+            return StatusCode(response.Error?.StatusCode ?? 201, response);
+        } // end        
+        
+        [HttpDelete]
+        [Route("recipe/{recipeId}")]
+        public ActionResult<ResponseObject<object>> DeleteRecipe(int recipeId)
+        {
+            // TODO: input validation
+            
+            var response = _logicRecipe.DeleteRecipe(recipeId);
+            
+            return StatusCode(response.Error?.StatusCode ?? 200, response);
         } // end
-
+        
         [HttpGet]
-        [Route("/{recipeId}")]
-        public DataModelsRecipe.RecipeFull RetrieveRecipe(int recipeId)
+        [Route("recipe/{recipeId}")]
+        public ActionResult<ResponseObject<ResponseObjectRecipeFull>> RetrieveRecipe(int recipeId)
         {
-            try
-            {
-                return new DataModelsRecipe.RecipeFull();
-            }
-            catch (Exception)
-            {
-                // TODO: Configure exception logging
-                return null;
-            }
+            // TODO: input validation
+
+            var response = _logicRecipe.RetrieveRecipe(recipeId);
+            
+            return StatusCode(response.Error?.StatusCode ?? 200, response);
+        } // end
+        
+        [HttpGet]
+        [Route("recipe")]
+        public ActionResult<ResponseObject<ResponseObjectListRecipeBase>> RetrieveRecipes(int? recipeDuration, int? recipeDifficultyId, int? recipeTagId)
+        {
+            // TODO: input validation
+            
+            var response = _logicRecipe.RetrieveRecipes(recipeDifficultyId, recipeDuration, recipeTagId);
+            
+            return StatusCode(response.Error?.StatusCode ?? 200, response);
+        } // end
+        
+        [HttpPost]
+        [Route("recipe")]
+        public ActionResult<ResponseObject<ResponseObjectRecipeFull>> UpdateRecipe(RecipeFull recipe)
+        {
+            // TODO: input validation
+            
+            var response = _logicRecipe.UpdateRecipe(recipe);
+            
+            return StatusCode(response.Error?.StatusCode ?? 200, response);
         } // end
     } // end class
 } // end namespace

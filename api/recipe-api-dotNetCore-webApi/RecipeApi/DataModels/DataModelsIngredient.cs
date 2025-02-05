@@ -1,40 +1,53 @@
 ﻿namespace DataModels
 {
-    public class DataModelsIngredient
+    /// <summary>
+    /// Response Object Containing Full Recipe Data Model Object
+    /// </summary>
+    public class ResponseObjectIngredientBase
     {
-        /// <summary>
-        /// Base Ingredient Data Model Object
-        /// Used for drop downs and ref table edit
-        /// </summary>
-        public class IngredientBase : DataModelsBase
-        {
-            public int IngredientId { get; set; }
+        public IngredientBase? Ingredient { get; set; }
+    } // end
 
-            public int IngredientIdParent { get; set; }
+    /// <summary>
+    /// Response Object Containing List Of Base Ingredient Data Model Objects
+    /// </summary>
+    public class ResponseObjectListIngredientBase
+    {
+        public IEnumerable<IngredientBase> Ingredients { get; set; } = new List<IngredientBase>();
+    } // end
+    
+    /// <summary>
+    /// Base Ingredient Data Model Object
+    /// Used for drop-downs and ref table edit
+    /// </summary>
+    public class IngredientBase
+    {
+        public int IngredientId { get; set; }
 
-            public string? IngredientDescription { get; set; }
+        public int IngredientIdParent { get; set; }
 
-            public string? IngredientName { get; set; }
+        public string? IngredientDescription { get; set; }
 
-            public string? IngredientPhotoUrl { get; set; }
-        } // end 
+        public string? IngredientName { get; set; }
 
-        /// <summary>
-        /// Full Ingredient Data Model Object
-        /// </summary>
-        public class IngredientFull : IngredientBase
-        {
-            public int Quantity { get; set; }
+        public string? IngredientPhotoUrl { get; set; }
+    } // end class
 
-            public int UnitId { get; set; }
+    /// <summary>
+    /// Full Ingredient Data Model Object
+    /// </summary>
+    public class IngredientFull : IngredientBase
+    {
+        public int Quantity { get; set; }
 
-            public string? UnitName { get; set; }
+        public int UnitId { get; set; }
 
-            public int UnitTypeId { get; set; }
+        public string? UnitName { get; set; }
 
-            public string? UnitTypeName { get; set; }
+        public int UnitTypeId { get; set; }
 
-            public string? UnitAbbreviation { get; set; }
-        } // end
+        public string? UnitTypeName { get; set; }
+
+        public string? UnitAbbreviation { get; set; }
     } // end class
 } // end namespace

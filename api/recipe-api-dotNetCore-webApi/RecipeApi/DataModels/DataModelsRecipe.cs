@@ -1,48 +1,54 @@
-﻿using static DataModels.DataModelsEquipment;
-using static DataModels.DataModelsIngredient;
-using static DataModels.DataModelsTag;
-
-namespace DataModels
+﻿namespace DataModels
 {
-    public class DataModelsRecipe
+    /// <summary>
+    /// Response Object Containing Full Recipe Data Model Object
+    /// </summary>
+    public class ResponseObjectRecipeFull
     {
-        /// <summary>
-        /// Base Recipe Data Model Object
-        /// Used in results table
-        /// </summary>
-        public class RecipeBase : DataModelsBase
-        {
-            public int RecipeId { get; set; }
+        public RecipeFull? Recipe { get; set; }
+    } // end
 
-            public int RecipeCookTime { get; set; }
+    /// <summary>
+    /// Response Object Containing List Of Base Recipe Data Model Objects
+    /// </summary>
+    public class ResponseObjectListRecipeBase
+    {
+        public IEnumerable<RecipeBase> Recipes { get; set; } = new List<RecipeBase>();
+    } // end
+    
+    /// <summary>
+    /// Base Recipe Data Model Object
+    /// </summary>
+    public class RecipeBase
+    {
+        public int RecipeId { get; set; }
+        
+        public required string RecipeDescription { get; set; }
 
-            public string? RecipeDescription { get; set; }
+        public required int RecipeDifficultyId { get; set; }
 
-            public int RecipeDifficultyId { get; set; }
+        public required string RecipeDirections { get; set; }
+        
+        public required int RecipeDuration { get; set; }
 
-            public string? RecipeDirections { get; set; }
+        public required string RecipeName { get; set; }
 
-            public string? RecipeName { get; set; }
+        public required string RecipePhotoUrl { get; set; }
 
-            public string? RecipePhotoUrl { get; set; }
+        public required int RecipeYield { get; set; }
+    } // end class
 
-            public int RecipeYield { get; set; }
+    /// <summary>
+    /// Full Recipe Data Model Object
+    /// </summary>
+    public class RecipeFull
+    {
+        public required RecipeBase Recipe { get; set; }
 
-        } // end
+        public required IEnumerable<Equipment> RecipeEquipments { get; set; }
 
-        /// <summary>
-        /// Full Recipe Data Model Object
-        /// </summary>
-        public class RecipeFull : DataModelsBase
-        {
-            public RecipeBase? Recipe { get; set; }
+        public required IEnumerable<IngredientFull> RecipeIngredients { get; set; }
 
-            public IEnumerable<Equipment>? Equipments { get; set; }
-
-            public IEnumerable<IngredientFull>? Ingredients { get; set; }
-
-            public IEnumerable<Tag>? Tags { get; set; }
-
-        } // end
+        public required IEnumerable<Tag> RecipeTags { get; set; }
     } // end class
 } // end namespace
