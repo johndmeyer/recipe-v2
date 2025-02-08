@@ -49,11 +49,13 @@ namespace Logic
         {
             try
             {
+                var ingredients = dataIngredient.RetrieveIngredients().Result;
+                
                 return new ResponseObject<ResponseObjectListIngredientBase>
                 {
                     Data = new ResponseObjectListIngredientBase
                     {
-                        Ingredients = dataIngredient.RetrieveIngredients().Result
+                        Ingredients = BuildObjectTree(ingredients.ToList())
                     }
                 };
             }

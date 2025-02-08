@@ -21,7 +21,7 @@ import { Results } from './features/results/results.component';
 })
 
 export class AppComponent {
-	public domain: string = '34.223.67.224:3000'
+	public domain: string = 'https://web-app-recipe-api-hycxgpf9hmghade3.eastus2-01.azurewebsites.net'
 	angularLogoSrc = 'angular-logo.png';
 	title = 'recipe-ui-angular';
 

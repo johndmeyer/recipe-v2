@@ -26,5 +26,7 @@
         public int? TagIdParent { get; set; }
 
         public required string TagName { get; set; }
+        
+        public IEnumerable<Tag> Items { get; set; }
     } // end class
 } // end namespace

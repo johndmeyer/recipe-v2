@@ -23,12 +23,14 @@
     {
         public int EquipmentId { get; set; }
 
-        public int EquipmentIdParent { get; set; }
+        public int? EquipmentIdParent { get; set; }
 
-        public string? EquipmentName { get; set; }
+        public string EquipmentName { get; set; }
 
         public string? EquipmentDescription { get; set; }
 
         public string? EquipmentPhotoUrl { get; set; }
+        
+        public IEnumerable<Equipment> Items { get; set; }
     } // end class
 } // end namespace

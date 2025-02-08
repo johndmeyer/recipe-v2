@@ -29,7 +29,7 @@ export class Results implements OnInit {
 	public gridData: unknown[] = [];
 
     ngOnInit(): void {
-        this.http.get<any>(`http://${this.domain}/recipe`).subscribe(data => {
+        this.http.get<any>(`${this.domain}/recipe`).subscribe(data => {
             this.gridData = data.data.recipes;
         })        
     }

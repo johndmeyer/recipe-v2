@@ -12,12 +12,14 @@ namespace Data
 
         public async Task<IEnumerable<Duration>> RetrieveDurations()
         {
-            return await new Task<List<Duration>>(() =>
-            [
-                new Duration(durationId: 30, durationName: "30 minutes or less" ),
+            var task = Task.Run(() => new List<Duration> {
+
+                new Duration(durationId: 30, durationName: "30 minutes or less"),
                 new Duration(durationId: 60, durationName: "60 minutes or less"),
                 new Duration(durationId: 90, durationName: "90 minutes or less")
-            ]);
+            });
+
+            return await task;
         } // end
     } // end class
 } // end namespace

@@ -49,11 +49,12 @@ namespace Logic
         {
             try
             {
+                var equipments = dataEquipment.RetrieveEquipments().Result;
                 return new ResponseObject<ResponseObjectListEquipment>
                 {
                     Data = new ResponseObjectListEquipment
                     {
-                        Equipments = dataEquipment.RetrieveEquipments().Result
+                        Equipments = BuildObjectTree(equipments.ToList())
                     }
                 };
             }

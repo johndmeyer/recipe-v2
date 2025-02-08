@@ -32,7 +32,7 @@ export class DropDown implements OnInit {
     
     // Lifecycle hooks
     ngOnInit(): void {
-        this.http.get<any>(`http://${this.domain}/${this.path}`).subscribe(data => {
+        this.http.get<any>(`${this.domain}/${this.path}`).subscribe(data => {
             this.dropdownData = data.data[`${this.path}s`];
         })        
     }

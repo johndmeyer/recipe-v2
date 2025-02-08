@@ -8,7 +8,7 @@ namespace Data
         Task<IEnumerable<RecipeFull?>> CreateRecipe(RecipeFull recipe);
         void DeleteRecipe(int recipeId);
         Task<IEnumerable<RecipeFull?>> RetrieveRecipe(int recipeId);
-        Task<IEnumerable<RecipeBase>> RetrieveRecipes(int? recipeCookTime, int? recipeDifficultyId, int? recipeTagId);
+        Task<IEnumerable<RecipeBase>> RetrieveRecipes(int? recipeDuration, int? recipeDifficultyId, int? recipeTagId);
         Task<IEnumerable<RecipeFull?>> UpdateRecipe(RecipeFull recipe);
 
     } // end interface

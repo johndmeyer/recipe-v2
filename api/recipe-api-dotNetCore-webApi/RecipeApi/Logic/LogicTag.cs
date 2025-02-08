@@ -49,11 +49,13 @@ namespace Logic
         {
             try
             {
+                var tags = dataTag.RetrieveTags().Result;
+                
                 return new ResponseObject<ResponseObjectListTag>
                 {
                     Data = new ResponseObjectListTag
                     {
-                        Tags = dataTag.RetrieveTags().Result
+                        Tags = BuildObjectTree(tags.ToList())
                     }
                 };
             }
@@ -62,7 +64,7 @@ namespace Logic
                 return BuildErrorObject<ResponseObjectListTag>(e);
             }
         } // end
-
+        
         public ResponseObject<ResponseObjectTag> UpdateTag(Tag tag)
         {
             try

@@ -28,6 +28,26 @@ CREATE TABLE difficulty (
 
 GO
 
+CREATE TABLE equipment (
+	equipmentId INT IDENTITY(1,1) PRIMARY KEY,
+	equipmentIdParent INT REFERENCES equipment(equipmentId),
+	equipmentName VARCHAR(255) NOT NULL, 	
+	equipmentDescription VARCHAR (255) NOT NULL,
+	equipmentPhotoUrl VARCHAR(255)
+)
+
+GO
+
+CREATE TABLE ingredient (
+	ingredientId INT IDENTITY(1,1) PRIMARY KEY,	
+	ingredientIdParent INT REFERENCES ingredient(ingredientId),
+	ingredientName VARCHAR(255) NOT NULL,	
+	ingredientDescription VARCHAR(255) NOT NULL,
+	ingredientPhotoUrl VARCHAR(255)
+)
+
+GO
+
 CREATE TABLE recipe (
 	recipeId INT IDENTITY(1,1) PRIMARY KEY,
 	difficultyId INT NOT NULL FOREIGN KEY REFERENCES difficulty(difficultyId),
@@ -41,12 +61,11 @@ CREATE TABLE recipe (
 
 GO
 
-CREATE TABLE ingredient (
-	ingredientId INT IDENTITY(1,1) PRIMARY KEY,	
-	ingredientName VARCHAR(255) NOT NULL,
-	ingredientParentId INT REFERENCES ingredient(ingredientId),
-	ingredientDescription VARCHAR(255) NOT NULL,
-	ingredientPhotoUrl VARCHAR(255)
+CREATE TABLE tag (
+	tagId INT IDENTITY(1,1) PRIMARY KEY,
+	tagIdParent INT REFERENCES tag(tagId),
+	tagName VARCHAR(255) NOT NULL,
+	
 )
 
 GO
@@ -76,27 +95,9 @@ CREATE TABLE recipe_ingredient (
 
 GO
 
-CREATE TABLE equipment (
-	equipmentId INT IDENTITY(1,1) PRIMARY KEY,
-	equipmentName VARCHAR(255) NOT NULL, 
-	equipmentParentId INT REFERENCES equipment(equipmentId),
-	equipmentDescription VARCHAR (255) NOT NULL,
-	equipmentPhotoUrl VARCHAR(255)
-)
-
-GO
-
 CREATE TABLE recipe_equipment (
 	recipeId INT NOT NULL FOREIGN KEY REFERENCES recipe(recipeId),
 	equipmentId INT NOT NULL FOREIGN KEY REFERENCES equipment(equipmentId), 
-)
-
-GO
-
-CREATE TABLE tag (
-	tagId INT IDENTITY(1,1) PRIMARY KEY,
-	tagName VARCHAR(255) NOT NULL,
-	tagParentId INT REFERENCES tag(tagId)
 )
 
 GO
@@ -180,18 +181,18 @@ GO
 CREATE PROCEDURE createEquipment
 	@equipmentName VARCHAR(255),
 	@equipmentDescription VARCHAR(255),
-	@equipmentParentId INT = NULL
+	@equipmentIdParent INT = NULL
 AS
 
 INSERT INTO equipment (
 	equipmentName,
 	equipmentDescription,
-	equipmentParentId
+	equipmentIdParent
 )
 SELECT
 	@equipmentName,
 	@equipmentDescription,
-	@equipmentParentId
+	@equipmentIdParent
 
 SELECT
 	e.equipmentId
@@ -227,7 +228,7 @@ CREATE PROCEDURE retrieveEquipments
 AS
 SELECT
 	e.equipmentId,
-	e.equipmentParentId,
+	e.equipmentIdParent,
 	e.equipmentName,
 	e.equipmentDescription,
 	e.equipmentPhotoUrl
@@ -301,17 +302,17 @@ GO
 CREATE PROCEDURE createIngredient
 	@ingredientName VARCHAR(255),
 	@ingredientDescription VARCHAR(255),
-	@ingredientParentId INT = NULL
+	@ingredientIdParent INT = NULL
 AS
 INSERT INTO ingredient (
 	ingredientName,
 	ingredientDescription,
-	ingredientParentId
+	ingredientIdParent
 )
 SELECT
 	@ingredientName,
 	@ingredientDescription,
-	@ingredientParentId
+	@ingredientIdParent
 SELECT
 	i.ingredientId
 FROM
@@ -346,7 +347,7 @@ CREATE PROCEDURE retrieveIngredients
 AS
 SELECT
 	i.ingredientId,
-	i.ingredientParentId,
+	i.ingredientIdParent,
 	i.ingredientName,
 	i.ingredientDescription,
 	i.ingredientPhotoUrl
@@ -604,7 +605,7 @@ GO
 
 /* ----------------------------------------------
 ** Name: createTag
-** Useage: EXEC createTag @tagName='Savory', @tagParentId=8
+** Useage: EXEC createTag @tagName='Savory', @tagIdParent=8
 ** ---------------------------------------------- */
 IF EXISTS (
 	SELECT 
@@ -624,15 +625,15 @@ END
 GO
 CREATE PROCEDURE createTag
 	@tagName VARCHAR(255),
-	@tagParentId INT = NULL
+	@tagIdParent INT = NULL
 AS
 INSERT INTO tag (
 	tagName,
-	tagParentId
+	tagIdParent
 )
 SELECT
 	@tagName,
-	@tagParentId
+	@tagIdParent
 SELECT
 	t.tagId
 FROM
@@ -640,7 +641,7 @@ FROM
 WHERE
 	t.tagName = @tagName
 	AND
-	t.tagParentId = @tagParentId	
+	t.tagIdParent = @tagIdParent	
 GO
 
 /* ----------------------------------------------
@@ -668,7 +669,7 @@ AS
 SELECT
 	tagId,
 	tagName,
-	tagParentId
+	tagIdParent
 FROM
 	dbo.tag	
 GO
@@ -995,40 +996,49 @@ GO
 /* ----------------------------------------------
 ** Name: retrieveRecipeIngredients
 ** Useage: CALL retrieveRecipeIngredients(1)
-** This is MySQL -rewrite!
 ** ---------------------------------------------- */
-DROP PROCEDURE IF EXISTS retrieveRecipeIngredients;
-
-DELIMITER //
-
-CREATE PROCEDURE retrieveRecipeIngredients (
-	recipeId INT
+IF EXISTS (
+	SELECT 
+		* 
+	FROM 
+		INFORMATION_SCHEMA.ROUTINES
+	WHERE
+		ROUTINE_TYPE = 'PROCEDURE' 
+		AND
+		ROUTINE_SCHEMA = 'dbo'
+		AND
+		ROUTINE_NAME = 'retrieveRecipeIngredients'
 )
 BEGIN
-	SELECT
-		ri.quantity,
-		u.unitName,
-		u.unitId,
-		u.unitAbbreviation,
-		i.ingredientId,
-		i.ingredientName,
-		i.ingredientDescription
-	FROM
-		recipe.recipe AS r
-		LEFT OUTER JOIN
-		recipe_ingredient AS ri
-			ON r.recipeId = ri.recipeId
-		LEFT OUTER JOIN
-		ingredient AS i
-			ON ri.ingredientId = i.ingredientId
-		LEFT OUTER JOIN
-		unit AS u
-			ON ri.unitId = u.unitId
-	WHERE
-		r.recipeId = recipeId;
-END //
-	
-DELIMITER ;
+	DROP PROCEDURE [dbo].retrieveRecipeIngredients
+END
+GO
+CREATE PROCEDURE retrieveRecipeIngredients (
+	@recipeId INT
+)
+AS 
+SELECT
+	ri.quantity,
+	u.unitName,
+	u.unitId,
+	u.unitAbbreviation,
+	i.ingredientId,
+	i.ingredientName,
+	i.ingredientDescription
+FROM
+	recipe AS r
+	LEFT OUTER JOIN
+	recipe_ingredient AS ri
+		ON r.recipeId = ri.recipeId
+	LEFT OUTER JOIN
+	ingredient AS i
+		ON ri.ingredientId = i.ingredientId
+	LEFT OUTER JOIN
+	unit AS u
+		ON ri.unitId = u.unitId
+WHERE
+	r.recipeId = @recipeId;
+GO
 
 /* ----------------------------------------------
 ** ----------------------------------------------
@@ -1171,17 +1181,17 @@ EXEC createEquipment @equipmentName='Food Preparation', @equipmentDescription='O
 GO -- 2
 EXEC createEquipment @equipmentName='Servingware', @equipmentDescription='Items used to serve food once it has been prepared (e.g. plates, utensils, etc...)'
 GO -- 3
-EXEC createEquipment @equipmentName='Dutch Oven', @equipmentDescription='A heavy, wide, fairly shallow pot with a tight fitting lid', @equipmentParentId=2
+EXEC createEquipment @equipmentName='Dutch Oven', @equipmentDescription='A heavy, wide, fairly shallow pot with a tight fitting lid', @equipmentIdParent=2
 GO
-EXEC createEquipment @equipmentName='Burner', @equipmentDescription='A heat source upon which pots, pans or other vessels can be placed', @equipmentParentId=1
+EXEC createEquipment @equipmentName='Burner', @equipmentDescription='A heat source upon which pots, pans or other vessels can be placed', @equipmentIdParent=1
 GO
-EXEC createEquipment @equipmentName='Cutting Board', @equipmentDescription='A wooden or plastic board used to protect the countertop and/or assist in cleaning in food preparation', @equipmentParentId=1
+EXEC createEquipment @equipmentName='Cutting Board', @equipmentDescription='A wooden or plastic board used to protect the countertop and/or assist in cleaning in food preparation', @equipmentIdParent=1
 GO
-EXEC createEquipment @equipmentName='Chefs Knife', @equipmentDescription='A large general utility knife used in food preparation', @equipmentParentId=2
+EXEC createEquipment @equipmentName='Chefs Knife', @equipmentDescription='A large general utility knife used in food preparation', @equipmentIdParent=2
 GO
-EXEC createEquipment @equipmentName='Insta Pot', @equipmentDescription='A pressure cooker with a built in burner and timer', @equipmentParentId=1
+EXEC createEquipment @equipmentName='Insta Pot', @equipmentDescription='A pressure cooker with a built in burner and timer', @equipmentIdParent=1
 GO
-EXEC createEquipment @equipmentName='Bowl', @equipmentDescription='A semi spherical dish used for serving food', @equipmentParentId=3
+EXEC createEquipment @equipmentName='Bowl', @equipmentDescription='A semi spherical dish used for serving food', @equipmentIdParent=3
 GO
 
 /* ----------------------------------------------
@@ -1199,23 +1209,23 @@ EXEC createIngredient @ingredientName='Fruit', @ingredientDescription='The flesh
 GO -- 5
 EXEC createIngredient @ingredientName='Vegetable', @ingredientDescription='Any other part of a plant that is not fruit, such as the leaves, stems, roots, and bulbs'
 GO -- 6
-EXEC createIngredient @ingredientName='Water', @ingredientDescription='Perhaps the most basic ingredient', @ingredientParentId=1
+EXEC createIngredient @ingredientName='Water', @ingredientDescription='Perhaps the most basic ingredient', @ingredientIdParent=1
 GO -- 7
-EXEC createIngredient @ingredientName='Vegetable Oil', @ingredientDescription='Oil extracted from the seeds or other parts of edible plants', @ingredientParentId=1
+EXEC createIngredient @ingredientName='Vegetable Oil', @ingredientDescription='Oil extracted from the seeds or other parts of edible plants', @ingredientIdParent=1
 GO -- 8
-EXEC createIngredient @ingredientName='Kosher Salt', @ingredientDescription='A coarse edible salt, usually without common additives such as iodine', @ingredientParentId=2
+EXEC createIngredient @ingredientName='Kosher Salt', @ingredientDescription='A coarse edible salt, usually without common additives such as iodine', @ingredientIdParent=2
 GO -- 9
-EXEC createIngredient @ingredientName='Black Pepper', @ingredientDescription='The dried seed of a flowering vine in the family Piperaceae', @ingredientParentId=2
+EXEC createIngredient @ingredientName='Black Pepper', @ingredientDescription='The dried seed of a flowering vine in the family Piperaceae', @ingredientIdParent=2
 GO -- 10
-EXEC createIngredient @ingredientName='Garlic', @ingredientDescription='A species of bulbous flowing plant in the genus Allium', @ingredientParentId=2
+EXEC createIngredient @ingredientName='Garlic', @ingredientDescription='A species of bulbous flowing plant in the genus Allium', @ingredientIdParent=2
 GO -- 11
-EXEC createIngredient @ingredientName='Dry Garbanzo Beans', @ingredientDescription='Also known as the chick pea, dried garbanzo beans are round, beige in color, and are about 1 cm in circumference', @ingredientParentId=4
+EXEC createIngredient @ingredientName='Dry Garbanzo Beans', @ingredientDescription='Also known as the chick pea, dried garbanzo beans are round, beige in color, and are about 1 cm in circumference', @ingredientIdParent=4
 GO -- 12
-EXEC createIngredient @ingredientName='Fire Roasted Green Chilies', @ingredientDescription='Available fresh, frozen or canned, green chilies (e.g. Hatch) are roasted over an open flame so the skin peels off', @ingredientParentId=6
+EXEC createIngredient @ingredientName='Fire Roasted Green Chilies', @ingredientDescription='Available fresh, frozen or canned, green chilies (e.g. Hatch) are roasted over an open flame so the skin peels off', @ingredientIdParent=6
 GO -- 13
-EXEC createIngredient @ingredientName='Long Grain Wild Rice Blend', @ingredientDescription='A mix of various types of long grain rice, including a black wild rice', @ingredientParentId=4
+EXEC createIngredient @ingredientName='Long Grain Wild Rice Blend', @ingredientDescription='A mix of various types of long grain rice, including a black wild rice', @ingredientIdParent=4
 GO -- 14
-EXEC createIngredient @ingredientName='Chicken', @ingredientDescription='A medium sized domesticated flightless bird', @ingredientParentId=3
+EXEC createIngredient @ingredientName='Chicken', @ingredientDescription='A medium sized domesticated flightless bird', @ingredientIdParent=3
 GO -- 15
 
 
@@ -1228,17 +1238,17 @@ EXEC createTag @tagName='Flavor Profile'
 GO -- 2
 EXEC createTag @tagName='Meal'
 GO -- 3
-EXEC createTag @tagName='American South West', @tagParentId=1
+EXEC createTag @tagName='American South West', @tagIdParent=1
 GO -- 4
-EXEC createTag @tagName='Asian', @tagParentId=1
+EXEC createTag @tagName='Asian', @tagIdParent=1
 GO -- 5
-EXEC createTag @tagName='Cajun', @tagParentId=1
+EXEC createTag @tagName='Cajun', @tagIdParent=1
 GO -- 6
-EXEC createTag @tagName='BBQ', @tagParentId=1
+EXEC createTag @tagName='BBQ', @tagIdParent=1
 GO -- 7
-EXEC createTag @tagName='Mexican', @tagParentId=1
+EXEC createTag @tagName='Mexican', @tagIdParent=1
 GO -- 8
-EXEC createTag @tagName='Indian', @tagParentId=1
+EXEC createTag @tagName='Indian', @tagIdParent=1
 GO -- 9
 
 /* ----------------------------------------------

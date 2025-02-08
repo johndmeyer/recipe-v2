@@ -8,7 +8,7 @@ namespace Logic
         ResponseObject<ResponseObjectRecipeFull> CreateRecipe(RecipeFull recipe);
         ResponseObject<object> DeleteRecipe(int recipeId);
         ResponseObject<ResponseObjectRecipeFull> RetrieveRecipe(int recipeId);
-        ResponseObject<ResponseObjectListRecipeBase> RetrieveRecipes(int? recipeCookTime, int? recipeDifficultyId, int? recipeTagId);
+        ResponseObject<ResponseObjectListRecipeBase> RetrieveRecipes(int? recipeDuration, int? recipeDifficultyId, int? recipeTagId);
         ResponseObject<ResponseObjectRecipeFull> UpdateRecipe(RecipeFull recipe);
     } // end interface
     
@@ -66,7 +66,7 @@ namespace Logic
             }
         } // end
 
-        public ResponseObject<ResponseObjectListRecipeBase> RetrieveRecipes(int? recipeCookTime, int? recipeDifficultyId, int? recipeTagId)
+        public ResponseObject<ResponseObjectListRecipeBase> RetrieveRecipes(int? recipeDuration, int? recipeDifficultyId, int? recipeTagId)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Logic
                 {
                     Data = new ResponseObjectListRecipeBase
                     {
-                        Recipes = dataRecipe.RetrieveRecipes(recipeCookTime, recipeDifficultyId, recipeTagId).Result
+                        Recipes = dataRecipe.RetrieveRecipes(recipeDuration, recipeDifficultyId, recipeTagId).Result
                     }
                 };
             }

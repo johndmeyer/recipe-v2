@@ -24,13 +24,15 @@
     {
         public int IngredientId { get; set; }
 
-        public int IngredientIdParent { get; set; }
+        public int? IngredientIdParent { get; set; }
+        
+        public string IngredientName { get; set; }
 
         public string? IngredientDescription { get; set; }
-
-        public string? IngredientName { get; set; }
-
+        
         public string? IngredientPhotoUrl { get; set; }
+        
+        public IEnumerable<IngredientBase> Items { get; set; }
     } // end class
 
     /// <summary>
