@@ -16,7 +16,7 @@ import dockerLogo from './docker-logo.png';
 import amazonEcsLogo from './amazon-ecs-logo.png';
 import awsLogo from './aws-fargate-logo.png';
 
-const domain = 'http://34.223.67.224:3000';
+const domain = 'http://34.219.215.43:3000';
 const filters = null;
 
 function App() {
