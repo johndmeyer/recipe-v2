@@ -57,3 +57,32 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Building and running with Docker
+
+Build and run the image locally `docker build -t <image-name> .` then `docker run --name <container-name> -p <mapped-port>:<exposed-port> <image-name>` e.g.:
+
+```bash
+docker build -t recipe-ui-angular-image .
+docker run --name recipe-ui-angular-container -p 80:80 recipe-ui-angular-image
+```
+
+* Ensure the application runs as expected and is pointed at the production (or approprate env) API
+
+## Deploy to Azure
+
+Log into Azure via the CLI:
+
+```bash
+az login
+```
+
+Build, tag, and push the image to the container registry `az acr build --image <image-name> --registry <container-registry-name> --file <file-path/file-name> .` e.g.:
+
+```bash
+az acr build --image recipe-ui-angular-image --registry RecipeUi --file Dockerfile .
+```
+
+Deploy updated build. Go to the web app in Azure console and select the Deployment > Deployment Center. Update the image in the image dropdown and save. Return to the main web app page and refresh.
+
+

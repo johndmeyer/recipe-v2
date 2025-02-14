@@ -17,7 +17,7 @@ var options = {
   info: {
     version: '1.0.0',
     title: 'Recipe Api Express',
-    description: 'Recipe Api written in express.js currently pulling data from SQL Server',
+    description: 'Recipe Api written in express.js pulling data from MongoDB as part of the MERN stack demo',
   },
   filesPattern: `${__dirname}/routes/*.js`,
   swaggerUIPath: '/docs',

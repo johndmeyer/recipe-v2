@@ -1,13 +1,25 @@
 'use strict';
 
-const getData = require('../../data/data-utils');
-
 const logicRetrieveUnits = async (inputs) => {
-    const params = { procName: 'retrieveDifficulties' };
 
-    const recordsets = await getData(params);
-
-    return { data: { difficultys: recordsets[0] } };
+    return { 
+        data: { 
+            difficultys: [
+                {
+                    difficultyId: 1,
+                    difficultyName: 'Easy'
+                },
+                {
+                    difficultyId: 2,
+                    difficultyName: 'Meduim'
+                },
+                {
+                    difficultyId: 3,
+                    difficultyName: 'Hard'
+                },
+            ] 
+        } 
+    };
 }
 
 module.exports = logicRetrieveUnits;

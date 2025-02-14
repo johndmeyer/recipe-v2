@@ -5,10 +5,10 @@ const mysql2 = require('mysql2');
 
 const getConnection = async () => {
     const connection = await mysql2.createConnection({
-        host: '',
+        host: 'recipe-db-instance.c9q6wk4kci32.us-west-2.rds.amazonaws.com',
         port: 3306,
         user: 'recipe_db_admin',
-        password: '',
+        password: 'AkcvW4aZ28hY843#',
         database: 'recipe',
         insecureAuth: true
     });
