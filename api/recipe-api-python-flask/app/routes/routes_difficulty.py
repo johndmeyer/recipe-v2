@@ -1,7 +1,7 @@
 from flask import request
 from flask_restx import fields, Namespace, Resource
 from ..data.mysql_utils import call_proc
-from ..models.difficulty import difficulty
+from ..models.models_difficulty import difficulty
 
 api = Namespace('difficulty', description='Operations on the difficulty table')
 
@@ -12,7 +12,7 @@ getDifficulties_model = api.model('data', {
 })
 
 @api.route('')
-class Difficulties(Resource):
+class Difficulty(Resource):
 	@api.doc(description='Retrieves a list of difficulty levels')
 	@api.doc(model=getDifficulties_model)
 	def get(self):

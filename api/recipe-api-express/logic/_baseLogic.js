@@ -4,7 +4,7 @@ function buildJsonTree(data, dataName, parentId = null) {
     const result = [];
   
     for (const item of data) {
-        if (item[`${dataName}ParentId`] === parentId) {
+        if (item[`${dataName}IdParent`] === parentId) {
             const items = buildJsonTree(data, dataName, item[`${dataName}Id`]);
             const node = { ...item, items };
 

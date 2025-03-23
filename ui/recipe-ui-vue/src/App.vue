@@ -23,7 +23,7 @@
         },
 		data: function () {
             return {
-				domain: 'http://localhost:3000',
+				domain: 'https://image-recipe-api-python-flask-134594351720.us-central1.run.app',
 				filterCriteria: {
                     recipeCookTime: null,
 					difficultyId: null,
@@ -44,8 +44,8 @@
 				switch (data.dataType) {
 					case 'difficulty':
 					    this.filterCriteria.difficultyId = data.id;
-					case 'cookTime':
-					    this.filterCriteria.cookTime = data.id;
+					case 'duration':
+					    this.filterCriteria.duration = data.id;
 					default:
 					    return;
 				}
@@ -100,6 +100,12 @@
 				<span><img class="bootstrap-logo" src="../public/bootstrap-logo.png"></span>
 				<span><img class="kendo-ui-logo" src="../public/kendo-ui-logo.png"></span>
 			</div>
+			<br/>
+			<div class="row hosted-on">
+				<span>Hosted on:</span>
+				<span><img class="docker-logo" src="../public/docker-logo.png"></span>
+				<span><img class="gcp-logo" src="../public/gcp-logo.png"></span>
+			</div>
 		</div>
 		
 		<br />
@@ -136,9 +142,9 @@
 					>
 						<drop-down
 							:style="{ width: '300px', margin: '0 5px 10px 5px' }"
-							:data-type="'cookTime'"
+							:data-type="'duration'"
 							:domain="domain"
-							:path="'cookTime'"
+							:path="'duration'"
 							@dropDownSelect="handleDropDownSelect"
 						/>
 					</div>
@@ -285,6 +291,17 @@
 			max-width: 125px;
 			vertical-align: middle;
 			background-color: white;
+		}
+		.hosted-on {
+			display: inline;
+		}
+		.docker-logo {
+			max-width: 125px;
+			vertical-align: middle;
+		}
+		.gcp-logo {
+			max-width: 125px;
+			vertical-align: middle;
 		}
 
 		.controls {

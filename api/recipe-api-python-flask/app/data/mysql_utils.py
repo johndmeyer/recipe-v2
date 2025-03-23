@@ -14,9 +14,12 @@ def call_proc(proc_args, proc_name):
 
 	# Establish a connection to the database
 	mysql_connection = mysql.connector.connect(
-	  host="localhost",
+	  #host="10.54.240.6", # for use in the cloud
+	  #host="35.239.138.192", # for use during local development
+	  host="localhost", # for use during local development
 	  user="root",
-	  password="abc123",
+	  #password="AkcvW4aZ28hY843#",
+	  password="abc123", # for use during local development
 	  database="recipe"
 	)
 

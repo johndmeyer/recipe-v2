@@ -13,14 +13,15 @@ const client = new MongoClient(url);
  * @returns {Promise} Returns a promise that resolves to the data
  */
 async function mongoData(params) {
-    const recordsets = [];
+    let recordsets = [];
+    let collectionName = getCollectionName(params);
 
     try {
         await client.connect();
 
-        const db = client.db('recipe');
+        const db = client.db('documents');
 
-        const collection = db.collection('documents');
+        const collection = db.collection(collectionName);
 
         const query = buildQuery(collection, params);
 
@@ -31,7 +32,54 @@ async function mongoData(params) {
         await client.close();
     }
 
+    // Moves id to object level - helps with inflating flat heirarchies in the logic layer
+    recordsets = restructureData(recordsets, collectionName)
+
     return recordsets;
+}
+
+function restructureData(recordsets, collectionName) {
+    const newRecordsets = [];
+
+    for(const recordset of recordsets) {
+        const newRecordset = [];
+
+        for (const record of recordset) {
+            const id = record._id.toString();
+
+            delete record._id;
+
+            record[`${collectionName}Id`] = id;
+
+            if (record[`${collectionName}IdParent`] === undefined) {
+                record[`${collectionName}IdParent`] = null;
+            }            
+
+            newRecordset.push(record);
+        }
+
+        newRecordsets.push(newRecordset);
+    }
+
+    return newRecordsets;
+}
+
+function getCollectionName(params) {
+    if (params.procName.includes('Equipment')) {
+        return 'equipment';
+    }
+    if (params.procName.includes('Ingredient')) {
+        return 'ingredient';
+    }
+    if (params.procName.includes('Tag')) {
+        return 'tag';
+    }
+    if (params.procName.includes('Recipe')) {
+        return 'recipe';
+    }
+    if (params.procName.includes('Unit')) {
+        return 'unit';
+    }
 }
 
 function buildQuery(collection, params) {
@@ -47,20 +95,20 @@ function buildQuery(collection, params) {
 
     switch(params.procName) {
         case 'retrieveEquipments':
-            query = collection.aggregate([{$unwind: '$equipments'}, {$group: {_id: '$equipments.name'}}]);
+            query = collection.find();
             break;
         case 'retrieveIngredients':
-            query = collection.aggregate([{$unwind: '$ingredients'}, {$group: {_id: '$ingredients.name'}}]);
+            query = collection.find();
             break;
         case 'retrieveRecipe':
         case 'retrieveRecipes':
             query = collection.find(args);
             break;
         case 'retrieveTags':
-            query = collection.aggregate([{$unwind: '$tags'}, {$group: {_id: '$tags.name'}}]);
+            query = collection.find();
             break;
         case 'retrieveUnits':
-            query = collection.aggregate([{$unwind: '$units'}, {$group: {_id: '$units.name'}}]);
+            query = collection.find({ $or: [{unitType: 'Natural'}, { unitType: params.procArgs[0].value }] });
             break;
     }
 

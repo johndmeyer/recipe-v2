@@ -109,7 +109,7 @@ router.post('/', async(req, res, next) => {
  * @return {object} 200 - Success response
  * @example request - example payload
  * {
- *   equipmentParentId: 5,
+ *   equipmentParentId: '67b66e268a5a939cf42fc872',
  *   equipmentName: 'Equipment name here'
  *   equipmentDescription: 'Equipment description here'      
  * }

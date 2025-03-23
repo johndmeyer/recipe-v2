@@ -74,8 +74,8 @@
                 fetch(url)
                     .then(response => response.json())
                     .then(data => {
-                        this.data = data.data.recipe;
-                        this.total = data.data.recipe.length;
+                        this.data = data.data.recipes;
+                        this.total = data.data.recipes.length;
                     });
             }
         },

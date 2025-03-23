@@ -3,8 +3,11 @@ from flask_restx import Api
 
 from .routes.routes_difficulty import api as difficulty_api
 from .routes.routes_duration import api as duration_api
+from .routes.routes_equipment import api as equipment_api
+from .routes.routes_ingredient import api as ingredient_api
 from .routes.routes_recipe import api as recipe_api
 from .routes.routes_tag import api as tag_api
+from .routes.routes_unit import api as unit_api
 
 def create_app():
     app = Flask(__name__)
@@ -22,8 +25,11 @@ def create_app():
 
     api.add_namespace(difficulty_api)
     api.add_namespace(duration_api)
+    api.add_namespace(equipment_api)
+    api.add_namespace(ingredient_api)
     api.add_namespace(recipe_api)
     api.add_namespace(tag_api)
+    api.add_namespace(unit_api)
 
     api.init_app(app)
     

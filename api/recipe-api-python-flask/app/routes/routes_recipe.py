@@ -1,10 +1,10 @@
 from flask import request
 from flask_restx import fields, Namespace, Resource
 from ..data.mysql_utils import call_proc
-from ..models.equipment import equipment
-from ..models.ingredient import ingredient
-from ..models.recipe import recipe
-from ..models.tag import tag
+from ..models.models_equipment import equipment
+from ..models.models_ingredient import ingredient
+from ..models.models_recipe import recipe
+from ..models.models_tag import tag
 
 api = Namespace('recipe', description='Operations on the recipe and associated tables')
 
@@ -18,7 +18,7 @@ getRecipes_model = api.model('data', {
 })
 
 @api.route('')
-class Recipes(Resource):
+class Recipe(Resource):
 	@api.doc(description='Retrieves a list of recipes filtered by the input criteria')
 	@api.doc(model=getRecipes_model)
 	def get(self):
@@ -39,6 +39,16 @@ class Recipes(Resource):
 		response['data'] = data
 
 		return response
+	
+	@api.doc(description='Creates a new recipe and associated entries in the equipment, ingredient, and tag tables')
+	@api.doc(model=getRecipes_model)
+	def post(self):
+		pass
+
+	@api.doc(description='Updates an existing recipe and associated entries in the equipment, ingredient, and tag tables')
+	@api.doc(model=getRecipes_model)
+	def put(self):
+		pass
 
 getRecipe_model = api.model('data', {
 	'equipments': fields.List(fields.Nested(model_equipment)),

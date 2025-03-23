@@ -1,5 +1,5 @@
 from flask_restx import fields, Namespace, Resource
-from ..models.duration import duration
+from ..models.models_duration import duration
 
 api = Namespace('duration', description='Ref data for the cook time drop down')
 
@@ -10,7 +10,7 @@ get_duration_model = api.model('data', {
 })
 
 @api.route('')
-class CookTimes(Resource):
+class Duration(Resource):
 	@api.doc(description='Retrieves a list of durations')
 	@api.doc(model=get_duration_model)
 	def get(self):

@@ -12,7 +12,7 @@ const router = express.Router();
  * DELETE /recipe/{recipeId}
  * @summary Deletes entry from the recipe table as well as associated entries in the ingredient, equipment, and tag tables
  * @tags Recipe
- * @param {integer} recipeId.query.required - The id of the recipe to be deleted
+ * @param {string} recipeId.query.required - The id of the recipe to be deleted
 */
 router.delete('/:recipeId', async (req, res, next) => {
     try {
@@ -28,9 +28,9 @@ router.delete('/:recipeId', async (req, res, next) => {
  * GET /recipe
  * @summary Gets a list of recipes filtered by the query params
  * @tags Recipe
- * @param {integer} cookTime.query - The max cook time for recipes returned
+ * @param {integer} duration.query - The max cook time for recipes returned
  * @param {integer} difficultyId.query - The difficultyId for recipes returned 1, 2, or 3
- * @param {integer} tagId.query - A tagId to filter recipes
+ * @param {string} tag.query - A tag to filter recipes
  * TODO: add pagination parameters
  * @return {object} 200 - Success response
  * @example response - 200 - example success response
@@ -55,12 +55,12 @@ router.get('/', async (req, res, next) => {
     try {
         const duration = req.query?.duration ?? 0;
         const difficultyId = req.query?.difficultyId ?? 0;
-        const tagId = req.query?.tagId ?? 0; // TODO: handle bad input
+        const tag = req.query?.tag ?? 0; // TODO: handle bad input
 
         res.send(await logicRetrieveRecipes({ 
             duration: Number(duration), 
             difficultyId: Number(difficultyId), 
-            tagId: Number(tagId) 
+            tag: Number(tag) 
         }));
     } catch (err) {
         next(err);

@@ -1,7 +1,6 @@
 'use strict';
 
 const logicRetrieveUnits = async (inputs) => {
-
     return { 
         data: { 
             difficultys: [
